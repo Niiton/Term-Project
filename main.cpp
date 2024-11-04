@@ -2,9 +2,6 @@
 #include <string>
 using namespace std;
 
-/// <summary>
-/// //// HWEELLLOOOOO
-/// </summary>
 class Customer
 {
 	string firstname;
