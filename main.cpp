@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 using namespace std;
+//system cls to clear previous screens in output, good for good menu
+//input validation needed 
+//need to change the nape of cpp and header files.
 
 class Customer
 {
@@ -12,7 +15,18 @@ class Customer
 
 public:
 
-	void PrintInfo()
+	Customer()
+	{
+		firstname = "";
+		lastname = "";
+		address = "";
+		phone = 0;
+		email = "";
+
+	}
+
+
+	void PrintInfo() const
 	{
 
 		cout << "Firstname:" << firstname << endl;
@@ -58,35 +72,35 @@ public:
 
 	}
 
-	string firstname()
+	string getfirstname() const
 	{
 
 		return firstname;
 
 	}
 
-	string lastname()
+	string getlastname() const
 	{
 
 		return lastname;
 
 	}
 
-	string address()
+	string getaddress() const
 	{
 
 		return address;
 
 	}
 
-	int phone()
+	int getphone() const
 	{
 
 		return phone;
 
 	}
 
-	string email()
+	string getemail() const
 	{
 
 		return email;
@@ -106,7 +120,28 @@ protected:
 
 public:
 
-	int Deposits(int _Deposits)
+	Account()
+	{
+		ID = 0;
+		balance = 0;
+		Withdrawals = 0;
+		Deposits = 0;
+
+
+	}
+
+	Account(int _ID, double _balance, int _Withdrawals, int _Deposits)
+	{
+		ID = _ID;
+		balance = _balance;
+		Withdrawals = _Withdrawals;
+		Deposits = _Deposits;
+
+
+
+	}
+
+	void Deposit(int _Deposits)
 	{
 		balance = balance + _Deposits;
 		Deposits = ++Deposits;
@@ -138,6 +173,61 @@ public:
 
 	}
 
+	void setID(int _ID)
+	{
+		ID = _ID;
+
+
+	}
+
+	void setbalance(double _balance)
+	{
+		balance = _balance;
+
+
+	}
+
+	void setWithdrawals(int _Withdrawals)
+	{
+		Withdrawals = _Withdrawals;
+
+
+	}
+
+	void setDeposit(int _Deposits)
+	{
+		Deposits = _Deposits;
+
+
+	}
+
+	int getID() const
+	{
+
+		return ID;
+
+	}
+
+	double getbalance() const
+	{
+
+		return balance;
+
+	}
+
+	int getWithdrawals() const
+	{
+		return  Withdrawals;
+
+	}
+
+	int getDeposit() const
+	{
+
+		return Deposits;
+
+	}
+
 };
 
 class CheckingAccount : public Account
@@ -148,13 +238,37 @@ class CheckingAccount : public Account
 
 public:
 
-	CheckingAccount(string _firstname, string _lastname, string _address, int _phone, string _email, double _overDraftLimit) : Account()
+
+
+	CheckingAccount() :Account()
+	{
+		overDraftLimit = 0;
+
+
+	}
+	
+	CheckingAccount(string _firstname, string _lastname, string _address, int _phone, string _email, double _overDraftLimit) : Account(ID, balance , Withdrawals, Deposits)
 	{
 		overDraftLimit = _overDraftLimit;
 
 	}
 
-	int Withdraw(float amount)
+
+	void setoverdraftlimit(double _overDraftLimit)
+	{
+
+		overDraftLimit = _overDraftLimit;
+
+	}
+
+	double getoverDraftLimit() const
+	{
+
+		return overDraftLimit;
+
+	}
+
+	int Withdraw(float & amount)
 	{
 		if (amount <= balance)
 		{
@@ -179,12 +293,40 @@ public:
 
 };
 
+
+class SavingAccount : public Account
+{
+	double interestRate;
+
+public:
+	SavingAccount() : Account()
+	{
+		interestRate = 0;
+
+
+	}
+
+	SavingAccount(string _firstname, string _lastname, string _address, int _phone, string _email, double _overDraftLimit) : Account(ID, balance, Withdrawals, Deposits)
+	{
+		interestRate = 0;
+
+
+	}
+
+	void payIntrest()
+	{
+		balance = interestRate * balance;
+
+
+	}
+
+};
+
 int main()
 {
+	CheckingAccount Checking[5];
+	SavingAccount Saving[5];
 
-
-
-
-
+	
 
 }
