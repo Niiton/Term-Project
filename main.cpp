@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 using namespace std;
+
+
 //system cls to clear previous screens in output, good for good menu
 //input validation needed 
 //need to change the nape of cpp and header files.
@@ -10,21 +12,44 @@ class Customer
 	string firstname;
 	string lastname;
 	string address;
-	int phone;
+	string phone;
 	string email;
 
 public:
+
+
 
 	Customer()
 	{
 		firstname = "";
 		lastname = "";
 		address = "";
-		phone = 0;
+		phone = "";
 		email = "";
+
 
 	}
 
+	Customer(string _firstname, string _lastname, string _address, string _phone, string _email)
+	{
+		firstname = _firstname;
+		lastname = _lastname;
+		address = _address;
+		phone = _phone;
+		email = _email;
+
+	}
+
+	void setall(string _firstname, string _lastname, string _address, string _phone, string _email)
+	{
+
+		firstname = _firstname;
+		lastname = _lastname;
+		address = _address;
+		phone = _phone;
+		email = _email;
+
+	}
 
 	void PrintInfo() const
 	{
@@ -58,7 +83,7 @@ public:
 
 	}
 
-	void setphone(int _phone)
+	void setphone(string _phone)
 	{
 		phone = _phone;
 
@@ -93,7 +118,7 @@ public:
 
 	}
 
-	int getphone() const
+	string getphone() const
 	{
 
 		return phone;
@@ -130,13 +155,24 @@ public:
 
 	}
 
-	Account(int _ID, double _balance, int _Withdrawals, int _Deposits)
+	Account(string _firstname, string _lastname, string _address, string _phone, string _email,int _ID, double _balance, int _Withdrawals, int _Deposits) 
 	{
+		accountCustomer.setall( _firstname, _lastname,  _address, _phone,  _email);
 		ID = _ID;
 		balance = _balance;
 		Withdrawals = _Withdrawals;
 		Deposits = _Deposits;
 
+
+
+	}
+
+	void setall(int _ID, double _balance, int _Withdrawals, int _Deposits)
+	{
+		ID = _ID;
+		balance = _balance;
+		Withdrawals = _Withdrawals;
+		Deposits = _Deposits;
 
 
 	}
@@ -246,13 +282,21 @@ public:
 
 
 	}
-	
-	CheckingAccount(string _firstname, string _lastname, string _address, int _phone, string _email, double _overDraftLimit) : Account(ID, balance , Withdrawals, Deposits)
+
+
+	CheckingAccount(string _firstname, string _lastname, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) : Account( _firstname,  _lastname,  _address,  _phone,  _email,ID, balance, Withdrawals, Deposits)
 	{
 		overDraftLimit = _overDraftLimit;
 
 	}
 
+	void setall(string _firstname, string _lastname, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) 
+	{
+		accountCustomer.setall(_firstname, _lastname, _address, _phone, _email); 
+		Account::setall(_ID, _balance, _Withdrawals, _Deposits);
+		overDraftLimit = _overDraftLimit;
+
+	}
 
 	void setoverdraftlimit(double _overDraftLimit)
 	{
@@ -268,7 +312,7 @@ public:
 
 	}
 
-	int Withdraw(float & amount)
+	int Withdraw(float& amount)
 	{
 		if (amount <= balance)
 		{
@@ -293,7 +337,7 @@ public:
 
 };
 
-
+//need to fix saving account passing
 class SavingAccount : public Account
 {
 	double interestRate;
@@ -306,11 +350,17 @@ public:
 
 	}
 
-	SavingAccount(string _firstname, string _lastname, string _address, int _phone, string _email, double _overDraftLimit) : Account(ID, balance, Withdrawals, Deposits)
+	SavingAccount(string _firstname, string _lastname, string _address, string _phone, string _email, int _ID, double _balance, double _interestrate, int _Deposits, double _overDraftLimit) : Account(_firstname, _lastname, _address, _phone, _email, ID, balance, Withdrawals, Deposits)
 	{
 		interestRate = 0;
 
 
+	}
+
+	void setall(string _firstname, string _lastname, string _address, int _phone, string _email, double _interestrate)
+	{
+
+		interestRate = _interestrate;
 	}
 
 	void payIntrest()
@@ -320,13 +370,35 @@ public:
 
 	}
 
+	void setinterestrate(double _interestRate)
+	{
+		interestRate = _interestRate;
+
+
+	}
+
+	double getinterestRate() const
+	{
+		return interestRate;
+
+	}
 };
 
 int main()
 {
+	double payment;
 	CheckingAccount Checking[5];
 	SavingAccount Saving[5];
+	//string _firstname, string _lastname, string _address, int _phone, string _email, double _overDraftLimit
+	Checking[0].setall("Anthony", "Munoz", "2551 mcdon street", "2222222", "Mario@gmail.com", 500, 2500, 0, 0, 100);
+
+	cout << "How much money do you want to deposit:";
+	cin >> payment;
+
+	Checking[0].Deposit(payment);
+
+	Checking[0].PrintInfo();
+
 
 	
-
 }
