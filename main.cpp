@@ -9,10 +9,10 @@ using namespace std;
 
 class Customer
 {
-	string firstname;
-	string lastname;
+	string firstName;
+	string lastName;
 	string address;
-	string phone;
+	int phone;
 	string email;
 
 public:
@@ -21,8 +21,8 @@ public:
 
 	Customer()
 	{
-		firstname = "";
-		lastname = "";
+		firstName = "";
+		lastName = "";
 		address = "";
 		phone = "";
 		email = "";
@@ -30,21 +30,21 @@ public:
 
 	}
 
-	Customer(string _firstname, string _lastname, string _address, string _phone, string _email)
+	Customer(string _firstName, string _lastName, string _address, string _phone, string _email)
 	{
-		firstname = _firstname;
-		lastname = _lastname;
+		firstName = _firstName;
+		lastName = _lastName;
 		address = _address;
 		phone = _phone;
 		email = _email;
 
 	}
 
-	void setall(string _firstname, string _lastname, string _address, string _phone, string _email)
+	void setall(string _firstName, string lastName, string _address, string _phone, string _email)
 	{
 
-		firstname = _firstname;
-		lastname = _lastname;
+		firstName = _firstName;
+		lastName = lastName;
 		address = _address;
 		phone = _phone;
 		email = _email;
@@ -54,36 +54,36 @@ public:
 	void PrintInfo() const
 	{
 
-		cout << "Firstname:" << firstname << endl;
-		cout << "Lastname:" << lastname << endl;
+		cout << "firstName:" << firstName << endl;
+		cout << "lastName:" << lastName << endl;
 		cout << "Address:" << address << endl;
 		cout << "Phone:" << phone << endl;
 		cout << "Email:" << email << endl;
 
 
 	}
-	void setfirstname(string _firstname)
+	void setFirstName(string _firstName)
 	{
-		firstname = _firstname;
+		firstName = _firstName;
 
 
 	}
 
-	void setlastname(string _lastname)
+	void setLastName(string _lastName)
 	{
-		lastname = _lastname;
+		lastName = _lastName;
 
 
 	}
 
-	void setaddress(string _address)
+	void setAddress(string _address)
 	{
 		address = _address;
 
 
 	}
 
-	void setphone(string _phone)
+	void setPhone(string _phone)
 	{
 		phone = _phone;
 
@@ -97,17 +97,17 @@ public:
 
 	}
 
-	string getfirstname() const
+	string getFirstName() const
 	{
 
-		return firstname;
+		return firstName;
 
 	}
 
-	string getlastname() const
+	string getLastName() const
 	{
 
-		return lastname;
+		return lastName;
 
 	}
 
@@ -155,9 +155,9 @@ public:
 
 	}
 
-	Account(string _firstname, string _lastname, string _address, string _phone, string _email,int _ID, double _balance, int _Withdrawals, int _Deposits) 
+	Account(string _firstName, string _lastName, string _address, string _phone, string _email,int _ID, double _balance, int _Withdrawals, int _Deposits) 
 	{
-		accountCustomer.setall( _firstname, _lastname,  _address, _phone,  _email);
+		accountCustomer.setall( _firstName, _lastName,  _address, _phone,  _email);
 		ID = _ID;
 		balance = _balance;
 		Withdrawals = _Withdrawals;
@@ -284,15 +284,15 @@ public:
 	}
 
 
-	CheckingAccount(string _firstname, string _lastname, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) : Account( _firstname,  _lastname,  _address,  _phone,  _email,ID, balance, Withdrawals, Deposits)
+	CheckingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) : Account( _firstName,  _lastName,  _address,  _phone,  _email,ID, balance, Withdrawals, Deposits)
 	{
 		overDraftLimit = _overDraftLimit;
 
 	}
 
-	void setall(string _firstname, string _lastname, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) 
+	void setall(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) 
 	{
-		accountCustomer.setall(_firstname, _lastname, _address, _phone, _email); 
+		accountCustomer.setall(_firstName, _lastName, _address, _phone, _email); 
 		Account::setall(_ID, _balance, _Withdrawals, _Deposits);
 		overDraftLimit = _overDraftLimit;
 
@@ -350,14 +350,14 @@ public:
 
 	}
 
-	SavingAccount(string _firstname, string _lastname, string _address, string _phone, string _email, int _ID, double _balance, double _interestrate, int _Deposits, double _overDraftLimit) : Account(_firstname, _lastname, _address, _phone, _email, ID, balance, Withdrawals, Deposits)
+	SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, double _interestrate, int _Deposits, double _overDraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, ID, balance, Withdrawals, Deposits)
 	{
 		interestRate = 0;
 
 
 	}
 
-	void setall(string _firstname, string _lastname, string _address, int _phone, string _email, double _interestrate)
+	void setall(string _firstName, string _lastName, string _address, int _phone, string _email, double _interestrate)
 	{
 
 		interestRate = _interestrate;
@@ -389,7 +389,7 @@ int main()
 	double payment;
 	CheckingAccount Checking[5];
 	SavingAccount Saving[5];
-	//string _firstname, string _lastname, string _address, int _phone, string _email, double _overDraftLimit
+	//string _firstName, string _lastName, string _address, int _phone, string _email, double _overDraftLimit
 	Checking[0].setall("Anthony", "Munoz", "2551 mcdon street", "2222222", "Mario@gmail.com", 500, 2500, 0, 0, 100);
 
 	cout << "How much money do you want to deposit:";
