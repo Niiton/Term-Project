@@ -17,316 +17,324 @@ class Customer
 
 public:
 
-
-
+	//constructors
 	Customer()
 	{
 		firstName = "";
 		lastName = "";
 		address = "";
-		phone = "";
+		phone = 0;
 		email = "";
-
-
 	}
 
-	Customer(string _firstName, string _lastName, string _address, string _phone, string _email)
+	Customer(string _firstName, string _lastName, string _address, int _phone, string _email)
 	{
 		firstName = _firstName;
 		lastName = _lastName;
 		address = _address;
 		phone = _phone;
 		email = _email;
-
 	}
 
-	void setall(string _firstName, string lastName, string _address, string _phone, string _email)
+	//setters
+	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email)
 	{
 
 		firstName = _firstName;
-		lastName = lastName;
+		lastName = _lastName;
 		address = _address;
 		phone = _phone;
 		email = _email;
-
 	}
 
-	void PrintInfo() const
-	{
-
-		cout << "firstName:" << firstName << endl;
-		cout << "lastName:" << lastName << endl;
-		cout << "Address:" << address << endl;
-		cout << "Phone:" << phone << endl;
-		cout << "Email:" << email << endl;
-
-
-	}
 	void setFirstName(string _firstName)
 	{
 		firstName = _firstName;
-
-
 	}
 
 	void setLastName(string _lastName)
 	{
 		lastName = _lastName;
-
-
 	}
 
 	void setAddress(string _address)
 	{
 		address = _address;
-
-
 	}
 
-	void setPhone(string _phone)
+	void setPhone(int _phone)
 	{
 		phone = _phone;
-
-
 	}
 
-	void setemail(string _email)
+	void setEmail(string _email)
 	{
 		email = _email;
-
-
 	}
 
+	//Getters
 	string getFirstName() const
 	{
-
 		return firstName;
-
 	}
 
 	string getLastName() const
 	{
-
 		return lastName;
-
 	}
 
-	string getaddress() const
+	string getAddress() const
 	{
-
 		return address;
-
 	}
 
-	string getphone() const
+	int getPhone() const
 	{
-
 		return phone;
-
 	}
 
-	string getemail() const
+	string getEmail() const
 	{
-
 		return email;
-
+	}
+	
+	//methods
+	void printInfo() const
+	{
+		cout << "First name: " << firstName << endl;
+		cout << "Last name: " << lastName << endl;
+		cout << "Address: " << address << endl;
+		cout << "Phone: " << phone << endl;
+		cout << "Email: " << email << endl;
 	}
 };
+
 
 class Account
 {
 protected:
-
 	int ID;
 	double balance;
-	int Withdrawals;
-	int Deposits;
+	int withdrawals;
+	int deposits;
 	Customer accountCustomer;
 
 public:
 
-	Account()
+	//Constructors
+	Account() : accountCustomer()
 	{
 		ID = 0;
 		balance = 0;
-		Withdrawals = 0;
-		Deposits = 0;
-
-
+		withdrawals = 0;
+		deposits = 0;
 	}
 
-	Account(string _firstName, string _lastName, string _address, string _phone, string _email,int _ID, double _balance, int _Withdrawals, int _Deposits) 
-	{
-		accountCustomer.setall( _firstName, _lastName,  _address, _phone,  _email);
-		ID = _ID;
-		balance = _balance;
-		Withdrawals = _Withdrawals;
-		Deposits = _Deposits;
-
-
-
-	}
-
-	void setall(int _ID, double _balance, int _Withdrawals, int _Deposits)
+	Account(string _firstName, string _lastName, string _address, int _phone, string _email,int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email)
 	{
 		ID = _ID;
 		balance = _balance;
-		Withdrawals = _Withdrawals;
-		Deposits = _Deposits;
-
-
+		withdrawals = _withdrawals;
+		deposits = _deposits;
 	}
 
-	void Deposit(int _Deposits)
+	//Setters
+	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits)
 	{
-		balance = balance + _Deposits;
-		Deposits = ++Deposits;
-
-	}
-
-	int Withdrawl(float _Withdrawl)
-	{
-		if (_Withdrawl <= balance)
-		{
-
-			balance = balance - _Withdrawl;
-			Withdrawals = ++Withdrawals;
-
-		}
-
-
-	}
-
-	void PrintInfo()
-	{
-		accountCustomer.PrintInfo();
-		cout << "ID:" << ID << endl;
-		cout << "Balance:" << balance << endl;
-		cout << "Withdrawals:" << Withdrawals << endl;
-		cout << "Deposits:" << Deposits << endl;
-
-
-
+		accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email); //added
+		ID = _ID;
+		balance = _balance;
+		withdrawals = _withdrawals;
+		deposits = _deposits;
 	}
 
 	void setID(int _ID)
 	{
 		ID = _ID;
-
-
 	}
 
-	void setbalance(double _balance)
+	void setBalance(double _balance)
 	{
-		balance = _balance;
+		//Overdraft validator
+		if (_balance < 0)
+		{
+			int input = -1;
+			cout << "OVERDRAFT WARNING: Setting balance to " << _balance << " will overdraft this account." << endl <<
+				"Are you sure you'd like to proceed with this change?" << endl <<
+				"Please input your answer (1, 2)" << endl <<
+				"1: Yes (OVERDRAFT)		2: NO" << endl;
 
+			while (input != 1 && input != 2)
+			{
+				cin >> input;
+				cin.ignore();
 
+				if (input == 1) 
+				{
+					balance = _balance;
+					cout << "Overdraft committed.";
+				}
+
+				else if (input == 2) 
+				{
+					cout << "Overdraft not committed." << endl;
+				}
+
+				else
+				{
+					cout << "Error OVR1: Please enter 1 for YES or 2 for NO, or contact your administrator for help." << endl;
+				}
+			}
+		}
+
+		else if (_balance > 1'000'000'000)
+		{
+			cout << "The maximum deposit for one transaction is $1 billion USD. Please break up your deposit into multiple transactions, or contact your administrator for help." << endl;
+		}
+
+		else
+		{
+			balance = _balance;
+		}
 	}
 
-	void setWithdrawals(int _Withdrawals)
+	void setWithdrawals(int _withdrawals)
 	{
-		Withdrawals = _Withdrawals;
-
-
+		if (_withdrawals < 0)
+		{
+			cout << "Error WTD1: Withdrawals amount cannot be less than 0!";
+		}
+		else
+		{
+			withdrawals = _withdrawals;
+		}
 	}
 
-	void setDeposit(int _Deposits)
+	void setDeposit(int _deposits)
 	{
-		Deposits = _Deposits;
-
-
+		if (_deposits < 0)
+		{
+			cout << "Error DEP1: Deposits amount cannot be less than 0!";
+		}
+		else
+		{
+			deposits = _deposits;
+		}
 	}
 
+	//getters
 	int getID() const
 	{
-
 		return ID;
-
 	}
 
-	double getbalance() const
+	double getBalance() const
 	{
-
 		return balance;
-
 	}
 
 	int getWithdrawals() const
 	{
-		return  Withdrawals;
+		return  withdrawals;
 
 	}
 
 	int getDeposit() const
 	{
+		return deposits;
+	}
 
-		return Deposits;
+	//methods
+	void deposit(int _deposits)
+	{
+		balance = balance + _deposits;
+		deposits = ++deposits;
+	}
 
+	int withdrawl(double _Withdrawl)
+	{
+		if (_Withdrawl <= balance)
+		{
+
+			balance = balance - _Withdrawl;
+			withdrawals = ++withdrawals;
+		}
+	}
+
+	void printInfo()
+	{
+		accountCustomer.printInfo();
+		cout << "ID:" << ID << endl;
+		cout << "Balance:" << balance << endl;
+		cout << "withdrawals:" << withdrawals << endl;
+		cout << "deposits:" << deposits << endl;
 	}
 
 };
 
 class CheckingAccount : public Account
 {
-	double overDraftLimit;
+	double overdraftLimit;
 
 
 
 public:
-
-
-
-	CheckingAccount() :Account()
+	
+	//Constructors
+	CheckingAccount() : Account()
 	{
-		overDraftLimit = 0;
+		overdraftLimit = 0;
 
 
 	}
 
-
-	CheckingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) : Account( _firstName,  _lastName,  _address,  _phone,  _email,ID, balance, Withdrawals, Deposits)
+	CheckingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits)
 	{
-		overDraftLimit = _overDraftLimit;
+		overdraftLimit = _overdraftLimit;
 
 	}
 
-	void setall(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _Withdrawals, int _Deposits, double _overDraftLimit) 
+	//Setters
+	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) 
 	{
-		accountCustomer.setall(_firstName, _lastName, _address, _phone, _email); 
-		Account::setall(_ID, _balance, _Withdrawals, _Deposits);
-		overDraftLimit = _overDraftLimit;
+
+		//CHANGE
+		accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email); 
+		Account::setAll(_ID, _balance, _withdrawals, _deposits);
+		overdraftLimit = _overdraftLimit;
 
 	}
 
-	void setoverdraftlimit(double _overDraftLimit)
+	void setOverdraftLimit(double _overdraftLimit)
 	{
 
-		overDraftLimit = _overDraftLimit;
+		overdraftLimit = _overdraftLimit;
 
 	}
 
-	double getoverDraftLimit() const
+	//Getters
+	double getOverdraftLimit() const
 	{
 
-		return overDraftLimit;
+		return overdraftLimit;
 
 	}
 
-	int Withdraw(float& amount)
+	int withdraw(double amount)
 	{
 		if (amount <= balance)
 		{
 			balance = balance - amount;
-			Withdrawals = ++Withdrawals;
+			withdrawals = ++withdrawals;
 
 		}
 		else
 			if (amount > balance)
 			{
-				if (amount - balance <= overDraftLimit)
+				if (amount - balance <= overdraftLimit)
 				{
 					balance = balance - amount;
-					Withdrawals = ++Withdrawals;
+					withdrawals = ++withdrawals;
 
 				}
 
@@ -350,7 +358,7 @@ public:
 
 	}
 
-	SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, double _interestrate, int _Deposits, double _overDraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, ID, balance, Withdrawals, Deposits)
+	SavingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, double _interestrate, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, ID, balance, withdrawals, deposits)
 	{
 		interestRate = 0;
 
@@ -389,15 +397,15 @@ int main()
 	double payment;
 	CheckingAccount Checking[5];
 	SavingAccount Saving[5];
-	//string _firstName, string _lastName, string _address, int _phone, string _email, double _overDraftLimit
-	Checking[0].setall("Anthony", "Munoz", "2551 mcdon street", "2222222", "Mario@gmail.com", 500, 2500, 0, 0, 100);
+	//string _firstName, string _lastName, string _address, int _phone, string _email, double _overdraftLimit
+	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", 9999999999, "Mario@gmail.com", 500, 2500, 0, 0, 100);
 
 	cout << "How much money do you want to deposit:";
 	cin >> payment;
 
-	Checking[0].Deposit(payment);
+	Checking[0].deposit(payment);
 
-	Checking[0].PrintInfo();
+	Checking[0].printInfo();
 
 
 	
