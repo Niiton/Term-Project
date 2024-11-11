@@ -133,9 +133,20 @@ public:
 	Account(string _firstName, string _lastName, string _address, int _phone, string _email,int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email)
 	{
 		ID = _ID;
+		if (ID < 0)
+			ID = 0;
+
 		balance = _balance;
+		if (balance < 0)
+			balance = 0;
+
 		withdrawals = _withdrawals;
+		if (withdrawals < 0)
+			withdrawals = 0;
+
 		deposits = _deposits;
+		if (deposits < 0)
+			deposits = 0;
 	}
 
 	//Setters
@@ -148,10 +159,6 @@ public:
 		deposits = _deposits;
 	}
 
-	void setID(int _ID)
-	{
-		ID = _ID;
-	}
 
 	void setBalance(double _balance)
 	{
@@ -187,14 +194,21 @@ public:
 			}
 		}
 
-		else if (_balance > 1'000'000'000)
-		{
-			cout << "The maximum deposit for one transaction is $1 billion USD. Please break up your deposit into multiple transactions, or contact your administrator for help." << endl;
-		}
-
 		else
 		{
 			balance = _balance;
+		}
+	}
+
+	void setID(int _ID)
+	{
+		if (_ID < 0)
+		{
+			cout << "Error SID1: Withdrawals amount cannot be less than 0!";
+		}
+		else
+		{
+			ID = _ID;
 		}
 	}
 
@@ -236,7 +250,6 @@ public:
 	int getWithdrawals() const
 	{
 		return  withdrawals;
-
 	}
 
 	int getDeposit() const
@@ -245,19 +258,33 @@ public:
 	}
 
 	//methods
-	void deposit(int _deposits)
+	void deposit(double _amount)
 	{
-		balance = balance + _deposits;
-		deposits = ++deposits;
+		if (_amount <= 0)
+			cout << "Error DEP1: Deposit amount cannot be less than 0. Please try again." << endl;
+
+		else if (_amount > 1'000'000'000)
+			cout << "The maximum deposit for one transaction is $1 billion USD. Please break up your deposit into multiple transactions, or contact your administrator for help." << endl;
+		
+		else
+		{
+			balance += _amount;
+			deposits++;
+		}
 	}
 
-	int withdrawl(double _Withdrawl)
+	int withdrawl(double _amount)
 	{
-		if (_Withdrawl <= balance)
-		{
+		if (_amount < 0)
+			cout << "Error WTH1: Withdrawal amount cannot be less than 0. Please try again." << endl;
 
-			balance = balance - _Withdrawl;
-			withdrawals = ++withdrawals;
+		else if (_amount > balance)
+			cout << "Error WTH2: Withdrawal amount cannot exceed the account's balance. Please try again." << endl;
+
+		else
+		{
+			balance -= _amount;
+			withdrawals++;
 		}
 	}
 
