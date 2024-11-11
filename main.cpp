@@ -130,7 +130,7 @@ public:
 		deposits = 0;
 	}
 
-	Account(string _firstName, string _lastName, string _address, int _phone, string _email,int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email)
+	Account(string _firstName, string _lastName, string _address, int _phone, string _email,int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email) //No need to call setAll with initializers
 	{
 		ID = _ID;
 		if (ID < 0)
@@ -273,7 +273,7 @@ public:
 		}
 	}
 
-	int withdrawl(double _amount)
+	void withdraw(double _amount) //changed to void; no return value
 	{
 		if (_amount < 0)
 			cout << "Error WTH1: Withdrawal amount cannot be less than 0. Please try again." << endl;
@@ -303,73 +303,90 @@ class CheckingAccount : public Account
 {
 	double overdraftLimit;
 
-
-
 public:
 	
 	//Constructors
 	CheckingAccount() : Account()
 	{
 		overdraftLimit = 0;
-
-
 	}
 
-	CheckingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits)
+	CheckingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits) // Account constructor already calls customer object
 	{
 		overdraftLimit = _overdraftLimit;
-
 	}
 
 	//Setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) 
+	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit)
 	{
-
-		//CHANGE
-		accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email); 
-		Account::setAll(_ID, _balance, _withdrawals, _deposits);
+		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits);
 		overdraftLimit = _overdraftLimit;
-
 	}
 
 	void setOverdraftLimit(double _overdraftLimit)
 	{
+		if (_overdraftLimit < 0)
+			cout << "Error ODL1: Overdraft Limit cannot be less than 0. Please try again." << endl;
 
-		overdraftLimit = _overdraftLimit;
-
+		else
+			overdraftLimit = _overdraftLimit;
 	}
 
 	//Getters
 	double getOverdraftLimit() const
 	{
-
 		return overdraftLimit;
-
 	}
 
-	int withdraw(double amount)
+	//Methods
+	void withdraw(double _amount) //changed to void; no return value
 	{
-		if (amount <= balance)
-		{
-			balance = balance - amount;
-			withdrawals = ++withdrawals;
+		double minimumBalance = -overdraftLimit;
+		
+		if (_amount < 0)
+			cout << "Error WTH1: Withdrawal amount cannot be less than 0. Please try again." << endl;
 
-		}
-		else
-			if (amount > balance)
+		else if (_amount - balance < minimumBalance)
+			cout << "Error WTH3: Withdrawal exceeds the account's balance + overdraft limit. Please try again." << endl;
+
+		else if (_amount > balance && _amount < (balance + overdraftLimit)) {
+			int input = -1;
+
+			cout << "OVERDRAFT WARNING: Withdrawing " << _amount << " will overdraft this account to $" << _amount - balance << " and is subject to a $20 service fee." << endl <<
+				"Are you sure you'd like to proceed with this change?" << endl <<
+				"Please input your answer (1, 2)" << endl <<
+				"1: Yes (OVERDRAFT)		2: NO" << endl;
+
+			while (input != 1 && input != 2)
 			{
-				if (amount - balance <= overdraftLimit)
-				{
-					balance = balance - amount;
-					withdrawals = ++withdrawals;
+				cin >> input;
+				cin.ignore();
 
+				if (input == 1)
+				{
+					balance -= (20 - _amount);
+					withdrawals++;
+					cout << "Overdraft & service fee committed.";
 				}
 
+				else if (input == 2)
+				{
+					cout << "Overdraft not committed." << endl;
+				}
+
+				else
+				{
+					cout << "Error OVR1: Please enter 1 for YES or 2 for NO, or contact your administrator for help." << endl;
+				}
 			}
+		}
 
+		else
+		{
+			balance -= _amount;
+			withdrawals++;
+		}
 	}
-
-
 };
 
 //need to fix saving account passing
@@ -378,45 +395,44 @@ class SavingAccount : public Account
 	double interestRate;
 
 public:
+
+	//Constructors
 	SavingAccount() : Account()
 	{
 		interestRate = 0;
-
-
 	}
 
-	SavingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, double _interestrate, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, ID, balance, withdrawals, deposits)
+	SavingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits)
 	{
 		interestRate = 0;
-
-
 	}
 
-	void setall(string _firstName, string _lastName, string _address, int _phone, string _email, double _interestrate)
+	//Setters
+	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit)
 	{
-
-		interestRate = _interestrate;
+		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits);
+		interestRate = _interestRate;
 	}
 
-	void payIntrest()
-	{
-		balance = interestRate * balance;
-
-
-	}
-
-	void setinterestrate(double _interestRate)
+	void setInterestRate(double _interestRate)
 	{
 		interestRate = _interestRate;
-
-
 	}
 
-	double getinterestRate() const
+	//Getters
+	double getInterestRate() const
 	{
 		return interestRate;
 
 	}
+
+	//Methods
+	void payInterest()
+	{
+		balance += (balance*interestRate);
+	}
+
+
 };
 
 int main()
