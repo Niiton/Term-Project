@@ -439,15 +439,20 @@ public:
 };
 
 void printMainMenu() {
-	cout << "Account Management System" << endl;
+	
+	cout << "____________________________________________" << endl << endl;
 
-	cout << "To navigate the menu, please input the corresponding number to the menu choice." << endl << endl;
+
+	cout << "\tAccount Administrator System" << endl << endl;
+	cout << "To manually navigate the menu, please input the corresponding number to the menu choice." << endl << endl;
 
 	cout <<
 		"0- Exit" << endl <<
-		"1- View and Modify Accounts" << endl <<
-		"2- Create an Account" << endl <<
-		"3- Delete an Account" << endl << endl <<
+		"1- View and Modify Accounts by List" << endl <<
+		"2- View and Modify by Search" << endl <<
+		"3- Create an Account" << endl << endl <<
+
+		"____________________________________________" << endl << endl <<
 
 		"Enter an option 0-3: ";
 
@@ -458,11 +463,14 @@ int main()
 	double payment;
 	CheckingAccount Checking[10];
 	SavingAccount Saving[10];
+	int defaultOverdraftLimit = 500;
 
-	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", 9999999999, "Mario@gmail.com", 500, 2500, 0, 0, 100);
+	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", 9999999999, "Mario@gmail.com", 1, 2500, 0, 0, 100);
+	Checking[1].setAll("Ethan", "Gonzalez Jamison", "4400 Wacdon St", 5865552986, "Ethan@Wakudon.com", 2, 50'000, 5, 2, 10'000);
 
-	int checkingCount = 1;
+	int checkingCount = 2;
 	int savingCount = 0;
+	int accountCounter = checkingCount + savingCount;
 
 	//string _firstName, string _lastName, string _address, int _phone, string _email, double _overdraftLimit
 
@@ -475,33 +483,46 @@ int main()
 		cout << "To navigate the menu, please input the corresponding number to the menu choice." << endl << endl;
 
 		cout <<
-			"0- Exit" << endl <<
-			"1- View and Modify Accounts" << endl <<
-			"2- Create an Account" << endl <<
-			"3- Delete an Account" << endl << endl <<
+		"0- Exit" << endl <<
+		"1- View and Modify Accounts" << endl <<
+		"2- View and Modify by Search" << endl <<
+		"3- Create an Account" << endl <<
+
+		"Enter an option 0-3: ";
 
 			"Enter an option 0-3: "; */
-		
+
 		printMainMenu();
 
 		cin >> menuInput;
 		cin.ignore();
 
-		if (menuInput == 0) {
-			cout << "Thanks for using Account Management System!" << endl;
-			return 0;
-		}
-
-		else if (menuInput == 1) 
+		switch (menuInput)
 		{
-			for (int i = 0; i < checkingCount; i++)
-			{
+		case 0:
+			cout << "Thank you for using Account Management System!" << endl;
+			return 0;
+			break;
 
-			}
+		case 1:
+			//	for (int i=0; )
+			break;
 
+		case 2:
+
+			break;
+
+		case 3:
+
+
+
+			break;
+
+		default:
+
+			cout << "Error MENI1: Invalid input. Please try again." << endl << endl;
+			continue;
 		}
-	
 
-
-	
+	}
 }
