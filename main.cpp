@@ -4,7 +4,7 @@ using namespace std;
 
 
 //system cls to clear previous screens in output, good for good menu
-//input validation needed 
+//input validation needs to be reviewed
 //need to change the nape of cpp and header files.
 
 class Customer
@@ -431,9 +431,8 @@ public:
 	{
 		balance += (balance*interestRate);
 	}
-
-
 };
+
 
 int main()
 {
@@ -449,6 +448,8 @@ int main()
 	Checking[0].deposit(payment);
 
 	Checking[0].printInfo();
+
+	
 
 
 	
