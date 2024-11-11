@@ -236,6 +236,12 @@ public:
 		}
 	}
 
+		// Transfers an account to another existing account
+	void transferAccountOwner(Customer _customer)
+	{
+		accountCustomer = _customer;
+	}
+
 	//getters
 	int getID() const
 	{
@@ -389,7 +395,6 @@ public:
 	}
 };
 
-//need to fix saving account passing
 class SavingAccount : public Account
 {
 	double interestRate;
@@ -433,22 +438,68 @@ public:
 	}
 };
 
+void printMainMenu() {
+	cout << "Account Management System" << endl;
+
+	cout << "To navigate the menu, please input the corresponding number to the menu choice." << endl << endl;
+
+	cout <<
+		"0- Exit" << endl <<
+		"1- View and Modify Accounts" << endl <<
+		"2- Create an Account" << endl <<
+		"3- Delete an Account" << endl << endl <<
+
+		"Enter an option 0-3: ";
+
+}
 
 int main()
 {
 	double payment;
-	CheckingAccount Checking[5];
-	SavingAccount Saving[5];
-	//string _firstName, string _lastName, string _address, int _phone, string _email, double _overdraftLimit
+	CheckingAccount Checking[10];
+	SavingAccount Saving[10];
+
 	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", 9999999999, "Mario@gmail.com", 500, 2500, 0, 0, 100);
 
-	cout << "How much money do you want to deposit:";
-	cin >> payment;
+	int checkingCount = 1;
+	int savingCount = 0;
 
-	Checking[0].deposit(payment);
+	//string _firstName, string _lastName, string _address, int _phone, string _email, double _overdraftLimit
 
-	Checking[0].printInfo();
+	int menuInput = -1;
 
+	while (menuInput != 0) {
+
+		/* cout << "Account Management System" << endl;
+
+		cout << "To navigate the menu, please input the corresponding number to the menu choice." << endl << endl;
+
+		cout <<
+			"0- Exit" << endl <<
+			"1- View and Modify Accounts" << endl <<
+			"2- Create an Account" << endl <<
+			"3- Delete an Account" << endl << endl <<
+
+			"Enter an option 0-3: "; */
+		
+		printMainMenu();
+
+		cin >> menuInput;
+		cin.ignore();
+
+		if (menuInput == 0) {
+			cout << "Thanks for using Account Management System!" << endl;
+			return 0;
+		}
+
+		else if (menuInput == 1) 
+		{
+			for (int i = 0; i < checkingCount; i++)
+			{
+
+			}
+
+		}
 	
 
 
