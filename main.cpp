@@ -12,7 +12,7 @@ class Customer
 	string firstName;
 	string lastName;
 	string address;
-	int phone;
+	string phone;
 	string email;
 
 public:
@@ -23,11 +23,11 @@ public:
 		firstName = "";
 		lastName = "";
 		address = "";
-		phone = 0;
+		phone = "";
 		email = "";
 	}
 
-	Customer(string _firstName, string _lastName, string _address, int _phone, string _email)
+	Customer(string _firstName, string _lastName, string _address, string _phone, string _email)
 	{
 		firstName = _firstName;
 		lastName = _lastName;
@@ -39,7 +39,7 @@ public:
 	~Customer() {}
 
 	//setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email)
 	{
 
 		firstName = _firstName;
@@ -64,7 +64,7 @@ public:
 		address = _address;
 	}
 
-	void setPhone(int _phone)
+	void setPhone(string _phone)
 	{
 		phone = _phone;
 	}
@@ -90,7 +90,7 @@ public:
 		return address;
 	}
 
-	int getPhone() const
+	string getPhone() const
 	{
 		return phone;
 	}
@@ -99,7 +99,7 @@ public:
 	{
 		return email;
 	}
-	
+
 	//methods
 	void printInfo() const
 	{
@@ -132,7 +132,7 @@ public:
 		deposits = 0;
 	}
 
-	Account(string _firstName, string _lastName, string _address, int _phone, string _email,int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email) //No need to call setAll with initializers
+	Account(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email) //No need to call setAll with initializers
 	{
 		ID = _ID;
 		if (ID < 0)
@@ -155,7 +155,7 @@ public:
 
 
 	//Setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits)
 	{
 		accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email); //added
 		ID = _ID;
@@ -163,8 +163,8 @@ public:
 		withdrawals = _withdrawals;
 		deposits = _deposits;
 	}
-	
-	void setCustomerDetails(const string& parameter, const string& newValue) 
+
+	void setCustomerDetails(const string& parameter, const string& newValue)
 	{
 		if (parameter == "firstName") {
 			accountCustomer.setFirstName(newValue);
@@ -178,23 +178,14 @@ public:
 		else if (parameter == "email") {
 			accountCustomer.setEmail(newValue);
 		}
-		else 
-		{
-			cout << "Invalid parameter name for string input." << endl;
-		}
-	}
-
-	void setCustomerDetails(const string& parameter, const int& newValue)
-	{
-		if (parameter == "phone")
+		else if (parameter == "phone")
 		{
 			accountCustomer.setPhone(newValue);
 		}
-		else 
+		else
 		{
-			cout << "Invalid parameter name for integer input." << endl;
+			cout << "Invalid parameter name for string input." << endl;
 		}
-
 	}
 
 	void setBalance(double _balance)
@@ -213,13 +204,13 @@ public:
 				cin >> input;
 				cin.ignore();
 
-				if (input == 1) 
+				if (input == 1)
 				{
 					balance = _balance;
 					cout << "Overdraft committed.";
 				}
 
-				else if (input == 2) 
+				else if (input == 2)
 				{
 					cout << "Overdraft not committed." << endl;
 				}
@@ -239,9 +230,9 @@ public:
 
 	void setID(int _ID)
 	{
-		if (_ID < 0)
+		if (_ID < -1)
 		{
-			cout << "Error SID1: Withdrawals amount cannot be less than 0!";
+			cout << "Error SID1: Withdrawals amount cannot be less than 0, and -1 is for deleted accounts only!";
 		}
 		else
 		{
@@ -273,7 +264,7 @@ public:
 		}
 	}
 
-		// Transfers an account to another existing account
+	// Transfers an account to another existing account
 	void transferAccountOwner(Customer _customer)
 	{
 		accountCustomer = _customer;
@@ -295,24 +286,16 @@ public:
 		else if (parameter == "email") {
 			return accountCustomer.getEmail();
 		}
-		else 
-		{
-			cout << "Invalid parameter name for string output." << endl;
-		}
-	}
-
-	int getCustomerDetails(const string& parameter)
-	{
-		if (parameter == "phone")
+		else if (parameter == "phone")
 		{
 			return accountCustomer.getPhone();
 		}
+
 		else
 		{
 			cout << "Invalid parameter name for string output." << endl;
 		}
 	}
-
 
 	int getID() const
 	{
@@ -329,7 +312,7 @@ public:
 		return withdrawals;
 	}
 
-	int getDeposit() const
+	int getDeposits() const
 	{
 		return deposits;
 	}
@@ -342,7 +325,7 @@ public:
 
 		else if (_amount > 1'000'000'000)
 			cout << "The maximum deposit for one transaction is $1 billion USD. Please break up your deposit into multiple transactions, or contact your administrator for help." << endl;
-		
+
 		else
 		{
 			balance += _amount;
@@ -370,10 +353,10 @@ public:
 	void printInfo()
 	{
 		accountCustomer.printInfo();
-		cout << "ID:" << ID << endl;
-		cout << "Balance:" << balance << endl;
-		cout << "Withdrawals:" << withdrawals << endl;
-		cout << "Deposits:" << deposits << endl;
+		cout << "ID: " << ID << endl;
+		cout << "Balance: $" << balance << endl;
+		cout << "Withdrawals: " << withdrawals << endl;
+		cout << "Deposits: " << deposits << endl;
 	}
 
 };
@@ -383,14 +366,14 @@ class CheckingAccount : public Account
 	double overdraftLimit;
 
 public:
-	
+
 	//Constructors
 	CheckingAccount() : Account()
 	{
 		overdraftLimit = 0;
 	}
 
-	CheckingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits) // Account constructor already calls customer object
+	CheckingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits) // Account constructor already calls customer object
 	{
 		overdraftLimit = _overdraftLimit;
 	}
@@ -398,7 +381,7 @@ public:
 	~CheckingAccount() {}
 
 	//Setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit)
 	{
 		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits);
 		overdraftLimit = _overdraftLimit;
@@ -419,11 +402,17 @@ public:
 		return overdraftLimit;
 	}
 
+	void printInfo()
+	{
+		Account::printInfo();
+		cout << "Overdraft Limit: $" << overdraftLimit << endl;
+	}
+
 	//Methods
 	void withdraw(double _amount) //changed to void; no return value
 	{
 		double minimumBalance = -overdraftLimit;
-		
+
 		if (_amount < 0)
 			cout << "Error WTH1: Withdrawal amount cannot be less than 0. Please try again." << endl;
 
@@ -484,7 +473,7 @@ public:
 		interestRate = 0;
 	}
 
-	SavingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits)
+	SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits)
 	{
 		interestRate = 0;
 	}
@@ -492,7 +481,7 @@ public:
 	~SavingAccount() {}
 
 	//Setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit)
 	{
 		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits);
 		interestRate = _interestRate;
@@ -510,15 +499,23 @@ public:
 
 	}
 
+	void printInfo() {
+		Account::printInfo();
+		cout << "Interest Rate: " << interestRate * 100 << "%" << endl;
+	}
+
 	//Methods
 	void payInterest()
 	{
-		balance += (balance*interestRate);
+		balance += (balance * interestRate);
+
+		cout << "Interest rate " << interestRate * 100 << "% applied." << endl <<
+			"New balance: $" << balance << endl << endl;
 	}
 };
 
 void printMainMenu() {
-	
+
 	cout << "____________________________________________" << endl << endl;
 
 
@@ -536,9 +533,9 @@ void printMainMenu() {
 		"Enter an option 0-3: ";
 }
 
-void printViewOptions() 
+void printViewOptions()
 {
-	cout << "Which accounts would you like to view?" << endl << endl;
+	cout << endl << "Which accounts would you like to view?" << endl << endl;
 	cout << "0- Back" << endl;
 	cout << "1- Checking Accounts" << endl;
 	cout << "2- Saving Accounts" << endl;
@@ -549,7 +546,7 @@ void printViewOptions()
 
 void printModifyOptionsChecking()
 {
-	cout << "1- Cash Deposit \t2- Cash Withdraw" << endl <<
+	cout << endl << "1- Cash Deposit \t2- Cash Withdraw" << endl <<
 		"3- First Name \t4- Last Name" << endl <<
 		"5- Address \t6- Phone Number" << endl <<
 		"7- Email \t8- ID" << endl <<
@@ -561,14 +558,14 @@ void printModifyOptionsChecking()
 
 	cout << "Please enter your selection: ";
 }
-void printModifyOptionsSaving() 
+void printModifyOptionsSaving()
 {
 
 	cout << endl << "What would you like to do or modify?" << endl << endl;
 	cout << "1- Cash Deposit \t2- Cash Withdraw" << endl <<
 		"3- Compound Interest \t4- First Name" << endl <<
 		"5- Last Name \t6- Address" << endl <<
-		"\t7 - Phone Number \t8- Email" << endl <<
+		"7 - Phone Number \t8- Email" << endl <<
 		"9- ID \t10- Balance" << endl <<
 		"11- Total Withdrawals \t12- Total Deposits" << endl <<
 		"13- Overdraft Limit \t14- ALL" << endl <<
@@ -578,53 +575,192 @@ void printModifyOptionsSaving()
 	cout << "Please enter your selection: ";
 }
 
-void deposit(CheckingAccount acc)
+void deposit(CheckingAccount& acc)
 {
 	double amt;
-	cout << "Enter an amount to deposit: ";	
+	cout << "Enter an amount to deposit: ";
 	cin >> amt; cin.ignore();
 
 	acc.deposit(amt);
 }
 
-void deposit(SavingAccount acc)
+void deposit(SavingAccount& acc)
 {
 	double amt;
-	cout << "Enter an amount to deposit: ";	
+	cout << "Enter an amount to deposit: ";
 	cin >> amt; cin.ignore();
 
 	acc.deposit(amt);
 }
 
-void withdraw(CheckingAccount acc)
+void withdraw(CheckingAccount& acc)
 {
 	double amt;
-	cout << "Enter an amount to withdraw: ";	
+	cout << "Enter an amount to withdraw: ";
 	cin >> amt; cin.ignore();
 
 	acc.withdraw(amt);
 }
 
-void withdraw(SavingAccount acc)
+void withdraw(SavingAccount& acc)
 {
 	double amt;
-	cout << "Enter an amount to withdraw: $";	
+	cout << "Enter an amount to withdraw: $";
 	cin >> amt; cin.ignore();
 
 	acc.withdraw(amt);
 }
 
+void getAndModAllInputChecking(CheckingAccount& Checking)
+{
+	string firstName, lastName, address, email, phone;
+	int ID, withdrawals, deposits;
+	double balance, overdraftLimit;
+
+	cout << endl << "Enter a new first name: ";
+	getline(cin, firstName);
+
+	cout << endl << "Enter a new last name: ";
+	getline(cin, lastName);
+
+	cout << endl << "Enter a new address: ";
+	getline(cin, address);
+
+	cout << endl << "Enter a new phone number: ";
+	cin >> phone;
+	cin.ignore();
+
+	cout << endl << "Enter a new email address: ";
+	getline(cin, email);
+
+	cout << endl << "Enter a new customer ID: ";
+	cin >> ID; cin.ignore();
+
+	cout << endl << "Enter a new balance: ";
+	cin >> balance; cin.ignore();
+
+	cout << endl << "Enter a new withdrawals amount: ";
+	cin >> withdrawals; cin.ignore();
+
+	cout << endl << "Enter a new deposits amount: ";
+	cin >> deposits; cin.ignore();
+
+	cout << endl << "Enter a new overdraft limit: ";
+	cin >> overdraftLimit; cin.ignore();
+
+	Checking.setAll(firstName, lastName, address, phone, email, ID, balance, withdrawals, deposits, overdraftLimit);
+}
+
+void getAndModAllInputSaving(SavingAccount& Saving)
+{
+	string firstName, lastName, address, email, phone;
+	int ID, withdrawals, deposits;
+	double balance, overdraftLimit, interestRate;
+
+	cout << endl << "Enter a new first name: ";
+	getline(cin, firstName);
+
+	cout << endl << "Enter a new last name: ";
+	getline(cin, lastName);
+
+	cout << endl << "Enter a new address: ";
+	getline(cin, address);
+
+	cout << endl << "Enter a new phone number: ";
+	cin >> phone;
+	cin.ignore();
+
+	cout << endl << "Enter a new email address: ";
+	getline(cin, email);
+
+	cout << endl << "Enter a new customer ID: ";
+	cin >> ID; cin.ignore();
+
+	cout << endl << "Enter a new balance: ";
+	cin >> balance; cin.ignore();
+
+	cout << endl << "Enter a new withdrawals amount: ";
+	cin >> withdrawals; cin.ignore();
+
+	cout << endl << "Enter a new deposits amount: ";
+	cin >> deposits; cin.ignore();
+
+	cout << endl << "Enter a new overdraft limit: ";
+	cin >> overdraftLimit; cin.ignore();
+
+	cout << endl << "Enter a new interest rate: ";
+	cin >> interestRate; cin.ignore();
+
+	Saving.setAll(firstName, lastName, address, phone, email, ID, balance, withdrawals, interestRate, deposits, overdraftLimit);
+}
+
+//Rearranges checking accounts if an account is deleted, explicit use in deleteAccount();
+void rearrangeCheckingAccs(CheckingAccount checking[], int checkingCount)
+{
+	CheckingAccount emptyChecking;
+	emptyChecking.setID(-1);
+
+	//Prevent gaps in Checking[] after deletion, and send deleted items to the end
+	for (int i = 0; i < checkingCount; i++)
+	{
+		if (checking[i].getID() == -1)
+		{
+			checking[i] = checking[i + 1];
+			checking[i + 1] = emptyChecking;
+		}
+	}
+
+	for (int i = 0; i < checkingCount; i++)
+	{
+		if (checking[i].getID() == -1)
+			checking[i].setID(0);
+	}
+
+	cout << "Accounts Rearranged!" << endl << endl;
+}
+
+void deleteAccount(CheckingAccount checkingArr[], int& checkingCount, int accToModify)
+{
+	checkingArr[accToModify].setAll("", "", "", "", "", -1, 0, 0, 0, 0); // Clear the account data and mark it as deleted using ID -1
+	cout << "Account Deleted!" << endl;
+	rearrangeCheckingAccs(checkingArr, checkingCount);
+	checkingCount--;
+}
+
+//Rearranges saving accounts if an account is deleted, explicit use in deleteAccount();
+void rearrangeCheckingAccs(SavingAccount saving[], int savingCount)
+{
+	SavingAccount emptySaving;
+	emptySaving.setID(-1);
+
+	//Prevent gaps in Saving[] after deletion, and send deleted items to the end
+	for (int i = 0; i < savingCount; i++)
+	{
+		if (saving[i].getID() == -1)
+		{
+			saving[i] = saving[i + 1];
+			saving[i + 1] = emptySaving;
+		}
+	}
+}
+
+void deleteAccount(SavingAccount savingArr[], int& savingCount, int accToModify)
+{
+	savingArr[accToModify].setAll("", "", "", "", "", -1, 0, 0, 0, 0, 0); // Clear the account data and mark it as deleted using ID -1
+	cout << "Account Deleted!" << endl;
+	rearrangeCheckingAccs(savingArr, savingCount);
+	savingCount--;
+}
 
 int main()
 {
-	double payment;
 	CheckingAccount Checking[10];
 	SavingAccount Saving[10];
 	int defaultOverdraftLimit = 500;
 	bool endLoop = false;
 
-	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", 9999999999, "Mario@gmail.com", 1, 2500, 0, 0, 100);
-	Checking[1].setAll("Ethan", "Gonzalez Jamison", "4400 Wacdon St", 5865552986, "Ethan@Wakudon.com", 2, 50'000, 5, 2, 10'000);
+	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", "9999999999", "Mario@gmail.com", 1, 2500, 0, 0, 100);
+	Checking[1].setAll("Ethan", "Gonzalez Jamison", "4400 Wacdon St", "5865552986", "Ethan@Wakudon.com", 2, 50'000, 5, 2, 10'000);
 
 	int checkingCount = 2;
 	int savingCount = 0;
@@ -804,9 +940,9 @@ int main()
 
 								case 6: 
 									cout << "Enter the updated phone number: ";
-									cin >> modIntInput; cin.ignore();
+									cin >> modStringInput; cin.ignore();
 
-									Checking[accToModify].setCustomerDetails("phone", modIntInput);
+									Checking[accToModify].setCustomerDetails("phone", modStringInput);
 
 									cout << "Phone number updated to " << Checking[accToModify].getCustomerDetails("phone") << "." << endl << endl;
 									modIntInput = 0;
