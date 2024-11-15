@@ -939,13 +939,12 @@ int main()
 									break;
 
 								case 6: 
-									cout << "Enter the updated phone number: ";
-									cin >> modStringInput; cin.ignore();
+									getline(cin, modStringInput);
 
 									Checking[accToModify].setCustomerDetails("phone", modStringInput);
 
 									cout << "Phone number updated to " << Checking[accToModify].getCustomerDetails("phone") << "." << endl << endl;
-									modIntInput = 0;
+									modStringInput = "";
 
 									break;
 
@@ -971,16 +970,6 @@ int main()
 									break;
 
 								case 9:
-									cout << "Enter a new ID: ";
-									cin >> modIntInput;
-									Checking[accToModify].setID(modIntInput);
-
-									cout << "ID updated to " << Checking[accToModify].getID() << "." << endl << endl;
-									modIntInput = 0;
-
-									break;
-
-								case 10:
 									cout << "Enter account's modified balance: ";
 									cin >> modDoubleInput;
 									Checking[accToModify].setBalance(modDoubleInput);
@@ -990,16 +979,121 @@ int main()
 
 									break;
 
+								case 10:
+									cout << "Enter a new amount of withdrawals for the account: ";
+									cin >> modIntInput;
+									Checking[accToModify].setWithdrawals(modIntInput);
+
+									cout << "Withdrawals updated to " << Checking[accToModify].getWithdrawals() << "." << endl << endl;
+									modIntInput = 0;
+
+									break;
+
 								case 11:
+									cout << "Enter a new amount of deposits for the account: ";
+									cin >> modIntInput;
+									Checking[accToModify].setDeposits(modIntInput);
+
+									cout << "Deposits updated to " << Checking[accToModify].getDeposits() << "." << endl << endl;
+									modIntInput = 0;
+									break;
+
+								case 12:
 									cout << "Enter a new overdraft limit: ";
 									cin >> modIntInput;
 									Checking[accToModify].setID(modIntInput);
 
 									cout << "ID updated to " << Checking[accToModify].getID() << "." << endl << endl;
 									modIntInput = 0;
-
 									break;
 
+								case 13:
+									int modAllChecker;
+									cout << "CAUTION: You are now setting ALL elements of the checking account. Would you like to proceed?" << endl <<
+										"Enter 0 for NO (Go back) \t Enter 1 for YES (MODIFY ALL ELEMENTS): ";
+
+									cin >> modAllChecker; cin.ignore();
+
+									if (modAllChecker < 0 || modAllChecker > 1)
+									{
+										cout << "Error MALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+									}
+
+									else if (modAllChecker == 0)
+									{
+										cout << "Returning to previous menu..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+										break;
+									}
+
+									else if (modAllChecker == 1)
+									{
+										getAndModAllInputChecking(Checking[accToModify]);
+										cout << endl << "Account Information Modified. Any invalid inputs are set to default. Please double-check the account and modify accordingly if needed." << endl << endl;
+										break;
+									}
+
+									else
+									{
+										cout << "FMALL1: Input Error. Please try again. If the problem persists, please contact IT." << endl << endl;
+										modAccInput = -1;
+									}
+									break;
+
+								case 14:
+
+									int deleteAccInput;
+									cout << "WARNING: Are you sure you'd like to liquify and delete this account?" << endl <<
+										"DELETING ACCOUNTS IS IRREVESIBLE!" << endl;
+									cout << "0- No, take me back." << endl <<
+										"1- YES, THE CUSTOMER WOULD LIKE TO DELETE THIS ACCOUNT." << endl << endl;
+
+									cout << "Enter input here: ";
+									cin >> deleteAccInput;
+
+									if (deleteAccInput < 0 || deleteAccInput > 1)
+									{
+										cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+									}
+
+									else if (deleteAccInput == 0)
+									{
+										cout << "Returning to previous menu..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+										break;
+									}
+									else if (deleteAccInput == 1)
+									{
+										cout << endl << "LAST WARNING: You are about to delete the customer's account. Are you sure you'd like to proceed?" << endl;
+										cout << "0- No, take me back." << endl <<
+											"1- YES, THE CUSTOMER WOULD LIKE TO DELETE THIS ACCOUNT." << endl << endl;
+
+										cout << "Enter input here: ";
+										cin >> deleteAccInput;
+
+										if (deleteAccInput < 0 || deleteAccInput > 1)
+										{
+											cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+											modAccInput = -1; // Trips the while loop below
+										}
+
+										else if (deleteAccInput == 0)
+										{
+											cout << "Returning to previous menu..." << endl << endl;
+											modAccInput = -1; // Trips the while loop below
+											break;
+										}
+
+										else if (deleteAccInput == 1)
+										{
+											cout << "Deleting Account..." << endl;
+											deleteAccount(Checking, checkingCount, accToModify);
+										}
+
+										break;
+									}
 								}
 							} while (modAccInput < 0 || modAccInput > 14);
 					
