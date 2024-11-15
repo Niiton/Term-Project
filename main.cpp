@@ -12,7 +12,7 @@ class Customer
 	string firstName;
 	string lastName;
 	string address;
-	int phone;
+	string phone;
 	string email;
 
 public:
@@ -23,11 +23,11 @@ public:
 		firstName = "";
 		lastName = "";
 		address = "";
-		phone = 0;
+		phone = "";
 		email = "";
 	}
 
-	Customer(string _firstName, string _lastName, string _address, int _phone, string _email)
+	Customer(string _firstName, string _lastName, string _address, string _phone, string _email)
 	{
 		firstName = _firstName;
 		lastName = _lastName;
@@ -39,7 +39,7 @@ public:
 	~Customer() {}
 
 	//setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email)
 	{
 
 		firstName = _firstName;
@@ -64,7 +64,7 @@ public:
 		address = _address;
 	}
 
-	void setPhone(int _phone)
+	void setPhone(string _phone)
 	{
 		phone = _phone;
 	}
@@ -90,7 +90,7 @@ public:
 		return address;
 	}
 
-	int getPhone() const
+	string getPhone() const
 	{
 		return phone;
 	}
@@ -132,7 +132,7 @@ public:
 		deposits = 0;
 	}
 
-	Account(string _firstName, string _lastName, string _address, int _phone, string _email,int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email) //No need to call setAll with initializers
+	Account(string _firstName, string _lastName, string _address, string _phone, string _email,int _ID, double _balance, int _withdrawals, int _deposits) : accountCustomer(_firstName, _lastName, _address, _phone, _email) //No need to call setAll with initializers
 	{
 		ID = _ID;
 		if (ID < 0)
@@ -155,7 +155,7 @@ public:
 
 
 	//Setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits)
 	{
 		accountCustomer.setAll(_firstName, _lastName, _address, _phone, _email); //added
 		ID = _ID;
@@ -178,23 +178,14 @@ public:
 		else if (parameter == "email") {
 			accountCustomer.setEmail(newValue);
 		}
-		else 
-		{
-			cout << "Invalid parameter name for string input." << endl;
-		}
-	}
-
-	void setCustomerDetails(const string& parameter, const int& newValue)
-	{
-		if (parameter == "phone")
+		else if (parameter == "phone")
 		{
 			accountCustomer.setPhone(newValue);
 		}
 		else 
 		{
-			cout << "Invalid parameter name for integer input." << endl;
+			cout << "Invalid parameter name for string input." << endl;
 		}
-
 	}
 
 	void setBalance(double _balance)
@@ -239,9 +230,9 @@ public:
 
 	void setID(int _ID)
 	{
-		if (_ID < 0)
+		if (_ID < -1)
 		{
-			cout << "Error SID1: Withdrawals amount cannot be less than 0!";
+			cout << "Error SID1: Withdrawals amount cannot be less than 0, and -1 is for deleted accounts only!";
 		}
 		else
 		{
@@ -295,24 +286,16 @@ public:
 		else if (parameter == "email") {
 			return accountCustomer.getEmail();
 		}
+		else if (parameter == "phone")
+		{
+			return accountCustomer.getPhone();
+		}
+
 		else 
 		{
 			cout << "Invalid parameter name for string output." << endl;
 		}
 	}
-
-	int getCustomerDetails(const string& parameter)
-	{
-		if (parameter == "phone")
-		{
-			return accountCustomer.getPhone();
-		}
-		else
-		{
-			cout << "Invalid parameter name for string output." << endl;
-		}
-	}
-
 
 	int getID() const
 	{
@@ -329,7 +312,7 @@ public:
 		return withdrawals;
 	}
 
-	int getDeposit() const
+	int getDeposits() const
 	{
 		return deposits;
 	}
@@ -370,10 +353,10 @@ public:
 	void printInfo()
 	{
 		accountCustomer.printInfo();
-		cout << "ID:" << ID << endl;
-		cout << "Balance:" << balance << endl;
-		cout << "Withdrawals:" << withdrawals << endl;
-		cout << "Deposits:" << deposits << endl;
+		cout << "ID: " << ID << endl;
+		cout << "Balance: $" << balance << endl;
+		cout << "Withdrawals: " << withdrawals << endl;
+		cout << "Deposits: " << deposits << endl;
 	}
 
 };
@@ -390,7 +373,7 @@ public:
 		overdraftLimit = 0;
 	}
 
-	CheckingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits) // Account constructor already calls customer object
+	CheckingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits) // Account constructor already calls customer object
 	{
 		overdraftLimit = _overdraftLimit;
 	}
@@ -398,7 +381,7 @@ public:
 	~CheckingAccount() {}
 
 	//Setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, int _deposits, double _overdraftLimit)
 	{
 		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits);
 		overdraftLimit = _overdraftLimit;
@@ -417,6 +400,12 @@ public:
 	double getOverdraftLimit() const
 	{
 		return overdraftLimit;
+	}
+
+	void printInfo()
+	{
+		Account::printInfo();
+		cout << "Overdraft Limit: $" << overdraftLimit << endl;
 	}
 
 	//Methods
@@ -484,7 +473,7 @@ public:
 		interestRate = 0;
 	}
 
-	SavingAccount(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits)
+	SavingAccount(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit) : Account(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits)
 	{
 		interestRate = 0;
 	}
@@ -492,7 +481,7 @@ public:
 	~SavingAccount() {}
 
 	//Setters
-	void setAll(string _firstName, string _lastName, string _address, int _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit)
+	void setAll(string _firstName, string _lastName, string _address, string _phone, string _email, int _ID, double _balance, int _withdrawals, double _interestRate, int _deposits, double _overdraftLimit)
 	{
 		Account::setAll(_firstName, _lastName, _address, _phone, _email, _ID, _balance, _withdrawals, _deposits);
 		interestRate = _interestRate;
@@ -510,10 +499,18 @@ public:
 
 	}
 
+	void printInfo() {
+		Account::printInfo();
+		cout << "Interest Rate: " << interestRate*100 << "%" << endl;
+	}
+
 	//Methods
 	void payInterest()
 	{
 		balance += (balance*interestRate);
+
+		cout << "Interest rate " << interestRate*100 << "% applied." << endl <<
+			"New balance: $" << balance << endl << endl;
 	}
 };
 
@@ -538,7 +535,7 @@ void printMainMenu() {
 
 void printViewOptions() 
 {
-	cout << "Which accounts would you like to view?" << endl << endl;
+	cout << endl << "Which accounts would you like to view?" << endl << endl;
 	cout << "0- Back" << endl;
 	cout << "1- Checking Accounts" << endl;
 	cout << "2- Saving Accounts" << endl;
@@ -549,7 +546,7 @@ void printViewOptions()
 
 void printModifyOptionsChecking()
 {
-	cout << "1- Cash Deposit \t2- Cash Withdraw" << endl <<
+	cout << endl << "1- Cash Deposit \t2- Cash Withdraw" << endl <<
 		"3- First Name \t4- Last Name" << endl <<
 		"5- Address \t6- Phone Number" << endl <<
 		"7- Email \t8- ID" << endl <<
@@ -568,7 +565,7 @@ void printModifyOptionsSaving()
 	cout << "1- Cash Deposit \t2- Cash Withdraw" << endl <<
 		"3- Compound Interest \t4- First Name" << endl <<
 		"5- Last Name \t6- Address" << endl <<
-		"\t7 - Phone Number \t8- Email" << endl <<
+		"7 - Phone Number \t8- Email" << endl <<
 		"9- ID \t10- Balance" << endl <<
 		"11- Total Withdrawals \t12- Total Deposits" << endl <<
 		"13- Overdraft Limit \t14- ALL" << endl <<
@@ -578,7 +575,7 @@ void printModifyOptionsSaving()
 	cout << "Please enter your selection: ";
 }
 
-void deposit(CheckingAccount acc)
+void deposit(CheckingAccount& acc)
 {
 	double amt;
 	cout << "Enter an amount to deposit: ";	
@@ -587,7 +584,7 @@ void deposit(CheckingAccount acc)
 	acc.deposit(amt);
 }
 
-void deposit(SavingAccount acc)
+void deposit(SavingAccount& acc)
 {
 	double amt;
 	cout << "Enter an amount to deposit: ";	
@@ -596,7 +593,7 @@ void deposit(SavingAccount acc)
 	acc.deposit(amt);
 }
 
-void withdraw(CheckingAccount acc)
+void withdraw(CheckingAccount& acc)
 {
 	double amt;
 	cout << "Enter an amount to withdraw: ";	
@@ -605,7 +602,7 @@ void withdraw(CheckingAccount acc)
 	acc.withdraw(amt);
 }
 
-void withdraw(SavingAccount acc)
+void withdraw(SavingAccount& acc)
 {
 	double amt;
 	cout << "Enter an amount to withdraw: $";	
@@ -614,6 +611,146 @@ void withdraw(SavingAccount acc)
 	acc.withdraw(amt);
 }
 
+void getAndModAllInputChecking(CheckingAccount& Checking)
+{
+	string firstName, lastName, address, email, phone; 
+	int ID, withdrawals, deposits;
+	double balance, overdraftLimit;
+
+	cout << endl << "Enter a new first name: ";
+	getline(cin, firstName);
+
+	cout << endl << "Enter a new last name: ";
+	getline(cin, lastName);
+
+	cout << endl << "Enter a new address: ";
+	getline(cin, address);
+
+	cout << endl << "Enter a new phone number: ";
+	cin >> phone; 
+	cin.ignore();
+
+	cout << endl << "Enter a new email address: ";
+	getline(cin, email);
+
+	cout << endl << "Enter a new customer ID: ";
+	cin >> ID; cin.ignore();
+
+	cout << endl << "Enter a new balance: ";
+	cin >> balance; cin.ignore();
+
+	cout << endl << "Enter a new withdrawals amount: ";
+	cin >> withdrawals; cin.ignore();
+
+	cout << endl << "Enter a new deposits amount: ";
+	cin >> deposits; cin.ignore();
+
+	cout << endl << "Enter a new overdraft limit: ";
+	cin >> overdraftLimit; cin.ignore();
+
+	Checking.setAll(firstName, lastName, address, phone, email, ID, balance, withdrawals, deposits, overdraftLimit);
+}
+
+void getAndModAllInputSaving(SavingAccount& Saving)
+{
+	string firstName, lastName, address, email, phone; 
+	int ID, withdrawals, deposits;
+	double balance, overdraftLimit, interestRate;
+
+	cout << endl << "Enter a new first name: ";
+	getline(cin, firstName);
+
+	cout << endl << "Enter a new last name: ";
+	getline(cin, lastName);
+
+	cout << endl << "Enter a new address: ";
+	getline(cin, address);
+
+	cout << endl << "Enter a new phone number: ";
+	cin >> phone; 
+	cin.ignore();
+
+	cout << endl << "Enter a new email address: ";
+	getline(cin, email);
+
+	cout << endl << "Enter a new customer ID: ";
+	cin >> ID; cin.ignore();
+
+	cout << endl << "Enter a new balance: ";
+	cin >> balance; cin.ignore();
+
+	cout << endl << "Enter a new withdrawals amount: ";
+	cin >> withdrawals; cin.ignore();
+
+	cout << endl << "Enter a new deposits amount: ";
+	cin >> deposits; cin.ignore();
+
+	cout << endl << "Enter a new overdraft limit: ";
+	cin >> overdraftLimit; cin.ignore();
+
+	cout << endl << "Enter a new interest rate: ";
+	cin >> interestRate; cin.ignore();
+
+	Saving.setAll(firstName, lastName, address, phone, email, ID, balance, withdrawals, interestRate, deposits, overdraftLimit);
+}
+
+//Rearranges checking accounts if an account is deleted, explicit use in deleteAccount();
+void rearrangeCheckingAccs(CheckingAccount checking[], int checkingCount)
+{
+	CheckingAccount emptyChecking;
+	emptyChecking.setID(-1);
+
+	//Prevent gaps in Checking[] after deletion, and send deleted items to the end
+	for (int i = 0; i < checkingCount; i++)
+	{
+		if (checking[i].getID() == -1) 
+		{
+			checking[i] = checking[i+1];
+			checking[i + 1] = emptyChecking;
+		}
+	}
+
+	for (int i = 0; i < checkingCount; i++)
+	{
+		if (checking[i].getID() == -1)
+			checking[i].setID(0);
+	}
+
+	cout << "Accounts Rearranged!" << endl << endl;
+}
+
+void deleteAccount(CheckingAccount checkingArr[], int &checkingCount, int accToModify)
+{
+	checkingArr[accToModify].setAll("", "", "", "", "", -1, 0, 0, 0, 0); // Clear the account data and mark it as deleted using ID -1
+	cout << "Account Deleted!" << endl;
+	rearrangeCheckingAccs(checkingArr, checkingCount);
+	checkingCount--;
+}
+
+//Rearranges saving accounts if an account is deleted, explicit use in deleteAccount();
+void rearrangeCheckingAccs(SavingAccount saving[], int savingCount)
+{
+	SavingAccount emptySaving;
+	emptySaving.setID(-1);
+
+	//Prevent gaps in Saving[] after deletion, and send deleted items to the end
+	for (int i = 0; i < savingCount; i++)
+	{
+		if (saving[i].getID() == -1)
+		{
+			saving[i] = saving[i + 1];
+			saving[i + 1] = emptySaving;
+		}
+	}
+}
+
+void deleteAccount(SavingAccount savingArr[], int &savingCount, int accToModify)
+{
+	savingArr[accToModify].setAll("", "", "", "", "", -1, 0, 0, 0, 0, 0); // Clear the account data and mark it as deleted using ID -1
+	cout << "Account Deleted!" << endl;
+	rearrangeCheckingAccs(savingArr, savingCount);
+	savingCount--;
+}
 
 int main()
 {
@@ -623,11 +760,14 @@ int main()
 	int defaultOverdraftLimit = 500;
 	bool endLoop = false;
 
-	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", 9999999999, "Mario@gmail.com", 1, 2500, 0, 0, 100);
-	Checking[1].setAll("Ethan", "Gonzalez Jamison", "4400 Wacdon St", 5865552986, "Ethan@Wakudon.com", 2, 50'000, 5, 2, 10'000);
+	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", "9999999999", "Mario@gmail.com", 1, 2500, 0, 0, 100);
+	Checking[1].setAll("Ethan", "Gonzalez Jamison", "4400 Wacdon St", "5865552986", "Ethan@Wakudon.com", 2, 50'000, 5, 2, 10'000);
+
+	Saving[0].setAll("Rock", "Johnson", "2400 Ocean Dr", "555-482-7865", "DwayneJohn@RockEnterprises.com", 5042, 1'000'000, 1009, .10, 9984, 100'000);
+	Saving[1].setAll("Sock", "Longton", "2401 Ocean Dr", "555-482-7866", "SockLong@SockEnterprises.com", 2346, 542'842, 80, .08, 4840, 80'000);
 
 	int checkingCount = 2;
-	int savingCount = 0;
+	int savingCount = 2;
 	int accountCounter = checkingCount + savingCount;
 
 	int menuInput = -1;
@@ -666,7 +806,7 @@ int main()
 
 			//clr terminal here
 			cout << "____________________________________________" << endl << endl;
-			cout << "\tAccount List" << endl << endl;
+			cout << "\tAccount List" << endl;
 
 			int viewAccountInput;
 
@@ -676,7 +816,7 @@ int main()
 			cin.ignore();
 
 			//Input Validation for Account View Options
-			if (viewAccountInput < 0 || viewAccountInput > 3) 
+			if (viewAccountInput < 0 || viewAccountInput > 3)
 			{
 				cout << "Error VACI1: Invalid input. Please try again." << endl << endl;
 			}
@@ -692,8 +832,8 @@ int main()
 					//exit
 				case 0:
 
-					cout << "Going back..." << endl;
-					endLoop = true;
+					cout << "Going back..." << endl << endl;
+					viewAccountInput = -1;
 					break;
 
 					//View Checking Accounts
@@ -755,20 +895,26 @@ int main()
 
 								cin >> modAccInput; cin.ignore();
 								cout << endl << endl;
-							
+
 								if (modAccInput < 0 || modAccInput > 14)
 								{
-									cout << "Invalid Input! Please try again." << endl;
+									cout << "Invalid Input! Please try again." << endl << endl;
 									continue;
 								}
 
 								switch (modAccInput)
 								{
+								case 0:
+									cout << "Exiting..." << endl << endl;
+									endLoop = true;
+									break;
 								case 1:
 									deposit(Checking[accToModify]);
 									break;
 								case 2:
 									withdraw(Checking[accToModify]);
+									break;
+
 								case 3:
 									cout << "Enter the updated first name: ";
 									getline(cin, modStringInput);
@@ -777,7 +923,7 @@ int main()
 
 									cout << "First name updated to " << Checking[accToModify].getCustomerDetails("firstName") << "." << endl << endl;
 									modStringInput = "";
-			
+
 									break;
 
 								case 4:
@@ -802,11 +948,11 @@ int main()
 
 									break;
 
-								case 6: 
+								case 6:
 									cout << "Enter the updated phone number: ";
-									cin >> modIntInput; cin.ignore();
+									getline(cin, modStringInput);
 
-									Checking[accToModify].setCustomerDetails("phone", modIntInput);
+									Checking[accToModify].setCustomerDetails("phone", modStringInput);
 
 									cout << "Phone number updated to " << Checking[accToModify].getCustomerDetails("phone") << "." << endl << endl;
 									modIntInput = 0;
@@ -829,22 +975,12 @@ int main()
 									cin >> modIntInput;
 									Checking[accToModify].setID(modIntInput);
 
-									cout << "ID updated to " << Checking[accToModify].getID()<< "." << endl << endl;
-									modIntInput = 0;
-
-									break;
-
-								case 9:
-									cout << "Enter a new ID: ";
-									cin >> modIntInput;
-									Checking[accToModify].setID(modIntInput);
-
 									cout << "ID updated to " << Checking[accToModify].getID() << "." << endl << endl;
 									modIntInput = 0;
 
 									break;
 
-								case 10:
+								case 9:
 									cout << "Enter account's modified balance: ";
 									cin >> modDoubleInput;
 									Checking[accToModify].setBalance(modDoubleInput);
@@ -854,7 +990,27 @@ int main()
 
 									break;
 
+								case 10:
+									cout << "Enter a new amount of withdrawals for the account: ";
+									cin >> modIntInput;
+									Checking[accToModify].setWithdrawals(modIntInput);
+
+									cout << "Withdrawals updated to " << Checking[accToModify].getWithdrawals() << "." << endl << endl;
+									modIntInput = 0;
+
+									break;
+
 								case 11:
+									cout << "Enter a new amount of deposits for the account: ";
+									cin >> modIntInput;
+									Checking[accToModify].setDeposits(modIntInput);
+
+									cout << "Deposits updated to " << Checking[accToModify].getDeposits() << "." << endl << endl;
+									modIntInput = 0;
+
+									break;
+
+								case 12:
 									cout << "Enter a new overdraft limit: ";
 									cin >> modIntInput;
 									Checking[accToModify].setID(modIntInput);
@@ -862,106 +1018,386 @@ int main()
 									cout << "ID updated to " << Checking[accToModify].getID() << "." << endl << endl;
 									modIntInput = 0;
 
+								case 13:
+									int modAllChecker;
+									cout << "CAUTION: You are now setting ALL elements of the checking account. Would you like to proceed?" << endl <<
+										"Enter 0 for NO (Go back) \t Enter 1 for YES (MODIFY ALL ELEMENTS): ";
+
+									cin >> modAllChecker; cin.ignore();
+
+									if (modAllChecker < 0 || modAllChecker > 1)
+									{
+										cout << "Error MALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+									}
+
+									else if (modAllChecker == 0)
+									{
+										cout << "Returning to previous menu..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+										break;
+									}
+
+									else if (modAllChecker == 1)
+									{
+										getAndModAllInputChecking(Checking[accToModify]);
+										cout << endl << "Account Information Modified. Any invalid inputs are set to default. Please double-check the account and modify accordingly if needed." << endl << endl;
+										break;
+									}
+
+									else
+									{
+										cout << "FMALL1: Input Error. Please try again. If the problem persists, please contact IT." << endl << endl;
+										modAccInput = -1;
+									}
 									break;
 
+								case 14:
+
+									int deleteAccInput;
+									cout << "WARNING: Are you sure you'd like to liquify and delete this account?" << endl <<
+										"DELETING ACCOUNTS IS IRREVESIBLE!" << endl;
+									cout << "0- No, take me back." << endl <<
+										"1- YES, THE CUSTOMER WOULD LIKE TO DELETE THIS ACCOUNT." << endl << endl;
+
+									cout << "Enter input here: ";
+									cin >> deleteAccInput;
+
+									if (deleteAccInput < 0 || deleteAccInput > 1)
+									{
+										cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+									}
+
+									else if (deleteAccInput == 0)
+									{
+										cout << "Returning to previous menu..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+										break;
+									}
+
+									else if (deleteAccInput == 1)
+									{
+										cout << endl << "LAST WARNING: You are about to delete the customer's account. Are you sure you'd like to proceed?" << endl;
+										cout << "0- No, take me back." << endl <<
+											"1- YES, THE CUSTOMER WOULD LIKE TO DELETE THIS ACCOUNT." << endl << endl;
+
+										cout << "Enter input here: ";
+										cin >> deleteAccInput;
+
+										if (deleteAccInput < 0 || deleteAccInput > 1)
+										{
+											cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+											modAccInput = -1; // Trips the while loop below
+										}
+
+										else if (deleteAccInput == 0)
+										{
+											cout << "Returning to previous menu..." << endl << endl;
+											modAccInput = -1; // Trips the while loop below
+											break;
+										}
+
+										else if (deleteAccInput == 1)
+										{
+											cout << "Deleting Account..." << endl;
+											deleteAccount(Checking, checkingCount, accToModify);
+										}
+
+										break;
+									}
 								}
 							} while (modAccInput < 0 || modAccInput > 14);
-					
+						}
+						else
+						{
+							cout << "FMALL1: Input Error. Please try again. If the problem persists, please contact IT." << endl << endl;
+							break;
 						}
 
-						endLoop = true;
-						break;
 
-						//View Savings Accounts
+						break;
+					}
+					//View Savings Accounts
 				case 2:
 
-					cout << "Saving Accounts:" << endl << endl;
+					cout << "Savings Accounts:" << endl << endl;
 
-
-					if (savingCount == 0)
-					{
-						cout << "No Saving Accounts found!" << endl <<
+					if (savingCount == 0) {
+						cout << "No Savings Accounts found!" << endl <<
 							"Please create an account, or choose a different account type." << endl;
 						break;
 					}
 
 					for (int i = 0; i < savingCount; i++)
 					{
-						cout << "Saving Account " << i + 1 << ":" << endl;
-						Checking[i].printInfo();
+						cout << "Savings Account " << i + 1 << ":" << endl;
+						Saving[i].printInfo();
 						cout << endl << endl;
 					}
-					endLoop = true;
-					break;
+					//////////////////////////
+					// Modify options for Savings Accounts until case 2
+					//////////////////////////
+					cout << "Enter 0 to exit, or enter the Savings Account number to modify: ";
+					cin >> accToModify; cin.ignore();
+					cout << endl;
 
-					//View Checking and Saving Accounts
-				case 3:
-
-					// Checking Accounts
-					cout << "Checking Accounts:" << endl << endl;
-
-					if (checkingCount == 0)
+					if (accToModify > savingCount || accToModify < 0)
 					{
-						cout << "No Checking Accounts found!" << endl <<
-							"Please create an account, or choose a different account type." << endl;
-					}
-					else
-					{
-
-						for (int i = 0; i < checkingCount; i++) {
-							cout << "Checking Account " << i + 1 << ":" << endl;
-							Checking[i].printInfo();
-							cout << endl << endl;
-						}
+						cout << "Error MOD1: Please enter a savings account number displayed before account details, or press 0 to exit." << endl << endl;
 					}
 
-					//Saving Accounts
-					cout << "Saving Accounts:" << endl << endl;
-
-
-					if (savingCount == 0)
+					while (accToModify >= 0 && accToModify <= savingCount)
 					{
-						cout << "No Saving Accounts found!" << endl <<
-							"Please create an account, or choose a different account type." << endl;
-						break;
-					}
-					else
-					{
-
-						for (int i = 0; i < savingCount; i++)
+						// Exit
+						if (accToModify == 0)
 						{
-							cout << "Saving Account " << i + 1 << ":" << endl;
-							Checking[i].printInfo();
-							cout << endl << endl;
+							cout << "Exiting..." << endl;
+							endLoop = true;
+							break;
 						}
-					}
+						// Modify Savings Account
+						else if (accToModify <= savingCount)
+						{
+							accToModify--;
+							cout << endl;
+							Saving[accToModify].printInfo();
+							int modAccInput;
 
-					endLoop = true;
+							// All input to modify from input
+							string modStringInput;
+							int modIntInput;
+							double modDoubleInput;
 
-					break;
+							do
+							{
+								printModifyOptionsSaving();  // Assuming a function to print the savings modify options
+
+								cin >> modAccInput; cin.ignore();
+								cout << endl << endl;
+
+								if (modAccInput < 0 || modAccInput > 14)
+								{
+									cout << "Invalid Input! Please try again." << endl << endl;
+									continue;
+								}
+
+								switch (modAccInput)
+								{
+								case 0:
+									cout << "Going back..." << endl << endl;
+									endLoop = true;
+								case 1:
+									deposit(Saving[accToModify]);
+									break;
+								case 2:
+									withdraw(Saving[accToModify]);
+									break;
+
+								case 3:
+									cout << "Compounding Interest at " << Saving[accToModify].getInterestRate() << "%..." << endl;
+
+									Saving[accToModify].payInterest();
+									break;
+
+								case 4:
+									cout << "Enter the updated first name: ";
+									getline(cin, modStringInput);
+
+									Saving[accToModify].setCustomerDetails("firstName", modStringInput);
+
+									cout << "First name updated to " << Saving[accToModify].getCustomerDetails("firstName") << "." << endl << endl;
+									modStringInput = "";
+
+									break;
+
+								case 5:
+									cout << "Enter the updated last name: ";
+									getline(cin, modStringInput);
+
+									Saving[accToModify].setCustomerDetails("lastName", modStringInput);
+
+									cout << "Last name updated to " << Saving[accToModify].getCustomerDetails("lastName") << "." << endl << endl;
+									modStringInput = "";
+
+									break;
+
+								case 6:
+									cout << "Enter the updated address: ";
+									getline(cin, modStringInput);
+
+									Saving[accToModify].setCustomerDetails("address", modStringInput);
+
+									cout << "Address updated to " << Saving[accToModify].getCustomerDetails("address") << "." << endl << endl;
+									modStringInput = "";
+
+									break;
+
+								case 7:
+									cout << "Enter the updated phone number: ";
+									getline(cin, modStringInput);
+
+									Saving[accToModify].setCustomerDetails("phone", modStringInput);
+
+									cout << "Phone number updated to " << Saving[accToModify].getCustomerDetails("phone") << "." << endl << endl;
+									modIntInput = 0;
+
+									break;
+
+								case 8:
+									cout << "Enter the updated email address: ";
+									getline(cin, modStringInput);
+
+									Saving[accToModify].setCustomerDetails("email", modStringInput);
+
+									cout << "Email address updated to " << Saving[accToModify].getCustomerDetails("email") << "." << endl << endl;
+									modStringInput = "";
+
+									break;
+
+								case 9:
+									cout << "Enter a new ID: ";
+									cin >> modIntInput;
+									Saving[accToModify].setID(modIntInput);
+
+									cout << "ID updated to " << Saving[accToModify].getID() << "." << endl << endl;
+									modIntInput = 0;
+
+									break;
+
+								case 10:
+									cout << "Enter account's modified balance: ";
+									cin >> modDoubleInput;
+									Saving[accToModify].setBalance(modDoubleInput);
+
+									cout << "Balance updated to " << Saving[accToModify].getBalance() << "." << endl << endl;
+									modDoubleInput = 0;
+
+									break;
+
+								case 11:
+									cout << "Enter a new amount of withdrawals for the account: ";
+									cin >> modIntInput;
+									Saving[accToModify].setWithdrawals(modIntInput);
+
+									cout << "Withdrawals updated to " << Saving[accToModify].getWithdrawals() << "." << endl << endl;
+									modIntInput = 0;
+
+									break;
+
+								case 12:
+									cout << "Enter a new amount of deposits for the account: ";
+									cin >> modIntInput;
+									Saving[accToModify].setDeposits(modIntInput);
+
+									cout << "Deposits updated to " << Saving[accToModify].getDeposits() << "." << endl << endl;
+									modIntInput = 0;
+
+									break;
+
+								case 13:
+									cout << "Enter a new interest rate: ";
+									cin >> modDoubleInput;
+									Saving[accToModify].setInterestRate(modDoubleInput);
+
+									cout << "Interest rate updated to " << Saving[accToModify].getInterestRate() << "." << endl << endl;
+									modDoubleInput = 0;
+
+									break;
+
+								case 14:
+									int modAllSaver;
+									cout << "CAUTION: You are now setting ALL elements of the savings account. Would you like to proceed?" << endl <<
+										"Enter 0 for NO (Go back) \t Enter 1 for YES (MODIFY ALL ELEMENTS): ";
+
+									cin >> modAllSaver; cin.ignore();
+
+									if (modAllSaver < 0 || modAllSaver > 1)
+									{
+										cout << "Error MALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+									}
+
+									else if (modAllSaver == 0)
+									{
+										cout << "Returning to previous menu..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+										break;
+									}
+
+									else if (modAllSaver == 1)
+									{
+										getAndModAllInputSaving(Saving[accToModify]);
+										cout << endl << "Account Information Modified. Any invalid inputs are set to default. Please double-check the account and modify accordingly if needed." << endl << endl;
+										break;
+									}
+									else
+									{
+										cout << "FMALL1: Input Error. Please try again. If the problem persists, please contact IT." << endl << endl;
+										modAccInput = -1;
+									}
+									break;
+
+								case 15:
+
+									int deleteAccInput;
+									cout << "WARNING: Are you sure you'd like to liquify and delete this account?" << endl <<
+										"DELETING ACCOUNTS IS IRREVERSIBLE!" << endl;
+									cout << "0- No, take me back." << endl <<
+										"1- YES, THE CUSTOMER WOULD LIKE TO DELETE THIS ACCOUNT." << endl << endl;
+
+									cout << "Enter input here: ";
+									cin >> deleteAccInput;
+
+									if (deleteAccInput < 0 || deleteAccInput > 1)
+									{
+										cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+									}
+
+									else if (deleteAccInput == 0)
+									{
+										cout << "Returning to previous menu..." << endl << endl;
+										modAccInput = -1; // Trips the while loop below
+										break;
+									}
+
+									else if (deleteAccInput == 1)
+									{
+										cout << "Deleting Account..." << endl;
+										deleteAccount(Saving, savingCount, accToModify);
+									}
+
+								}
+							} while (modAccInput < 0 || modAccInput > 14);
+							break;
+						}
+						endLoop = true;
+
+						break;
 
 				default:
 					cout << "Error VACC1: Invalid input. Please pick an option from 0-3";
-
 					break;
 					}
 
+
+
 					//Check End of Loop, reprint menu
-					if (endLoop)
-						break;
-
-					printViewOptions();
-
-					cin >> viewAccountInput;
-					cin.ignore();
+					
 				}
 
+				printViewOptions();
+
+				cin >> viewAccountInput;
+				cin.ignore();
 
 
 
-				break;
+					break;
+			}
 
-				//Menu Op 2
+			//Menu Op 2
 		case 2:
 			//clr terminal here
 			cout << "____________________________________________" << endl << endl;
@@ -991,8 +1427,10 @@ int main()
 
 			cout << "Error MENI1: Invalid input. Please try again." << endl << endl;
 			continue;
-			}
-
 		}
+
 	}
 }
+
+	
+
