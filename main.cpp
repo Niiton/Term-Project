@@ -864,7 +864,6 @@ int main()
 
 					while (accToModify >= 0 && accToModify <= checkingCount)
 					{
-
 						//Exit
 						if (accToModify == 0)
 						{
@@ -891,10 +890,10 @@ int main()
 
 								cin >> modAccInput; cin.ignore();
 								cout << endl << endl;
-							
+
 								if (modAccInput < 0 || modAccInput > 14)
 								{
-									cout << "Invalid Input! Please try again." << endl;
+									cout << "Invalid Input! Please try again." << endl << endl;
 									continue;
 								}
 
@@ -913,7 +912,7 @@ int main()
 
 									cout << "First name updated to " << Checking[accToModify].getCustomerDetails("firstName") << "." << endl << endl;
 									modStringInput = "";
-			
+
 									break;
 
 								case 4:
@@ -938,7 +937,7 @@ int main()
 
 									break;
 
-								case 6: 
+								case 6:
 									getline(cin, modStringInput);
 
 									Checking[accToModify].setCustomerDetails("phone", modStringInput);
@@ -964,7 +963,7 @@ int main()
 									cin >> modIntInput;
 									Checking[accToModify].setID(modIntInput);
 
-									cout << "ID updated to " << Checking[accToModify].getID()<< "." << endl << endl;
+									cout << "ID updated to " << Checking[accToModify].getID() << "." << endl << endl;
 									modIntInput = 0;
 
 									break;
@@ -1096,101 +1095,21 @@ int main()
 									}
 								}
 							} while (modAccInput < 0 || modAccInput > 14);
-					
+							break;
 						}
 
-						endLoop = true;
-						break;
+						if (endLoop)
+							break;
+					}					
+					if (endLoop) break;
 
-						//View Savings Accounts
+					//View Savings Accounts
 				case 2:
 
-					cout << "Saving Accounts:" << endl << endl;
-
-
-					if (savingCount == 0)
-					{
-						cout << "No Saving Accounts found!" << endl <<
-							"Please create an account, or choose a different account type." << endl;
-						break;
-					}
-
-					for (int i = 0; i < savingCount; i++)
-					{
-						cout << "Saving Account " << i + 1 << ":" << endl;
-						Checking[i].printInfo();
-						cout << endl << endl;
-					}
-					endLoop = true;
 					break;
-
-					//View Checking and Saving Accounts
-				case 3:
-
-					// Checking Accounts
-					cout << "Checking Accounts:" << endl << endl;
-
-					if (checkingCount == 0)
-					{
-						cout << "No Checking Accounts found!" << endl <<
-							"Please create an account, or choose a different account type." << endl;
-					}
-					else
-					{
-
-						for (int i = 0; i < checkingCount; i++) {
-							cout << "Checking Account " << i + 1 << ":" << endl;
-							Checking[i].printInfo();
-							cout << endl << endl;
-						}
-					}
-
-					//Saving Accounts
-					cout << "Saving Accounts:" << endl << endl;
-
-
-					if (savingCount == 0)
-					{
-						cout << "No Saving Accounts found!" << endl <<
-							"Please create an account, or choose a different account type." << endl;
-						break;
-					}
-					else
-					{
-
-						for (int i = 0; i < savingCount; i++)
-						{
-							cout << "Saving Account " << i + 1 << ":" << endl;
-							Checking[i].printInfo();
-							cout << endl << endl;
-						}
-					}
-
-					endLoop = true;
-
-					break;
-
-				default:
-					cout << "Error VACC1: Invalid input. Please pick an option from 0-3";
-
-					break;
-					}
-
-					//Check End of Loop, reprint menu
-					if (endLoop)
-						break;
-
-					printViewOptions();
-
-					cin >> viewAccountInput;
-					cin.ignore();
-				}
-
-
-
-
-				break;
-
+				
+			}
+			break;
 				//Menu Op 2
 		case 2:
 			//clr terminal here
@@ -1210,11 +1129,9 @@ int main()
 			cin >> searchByInput; cin.ignore();
 
 			break;
-
+			
+			//Menu Op 3
 		case 3:
-
-
-
 			break;
 
 		default:
