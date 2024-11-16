@@ -1077,7 +1077,7 @@ int main()
 
 										if (deleteAccInput < 0 || deleteAccInput > 1)
 										{
-											cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+											cout << "Error DACC1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
 											modAccInput = -1; // Trips the while loop below
 										}
 
@@ -1092,6 +1092,7 @@ int main()
 										{
 											cout << "Deleting Account..." << endl;
 											deleteAccount(Checking, checkingCount, accToModify);
+											endLoop = true;
 										}
 
 										break;
@@ -1161,7 +1162,7 @@ int main()
 								cin >> modAccInput; cin.ignore();
 								cout << endl << endl;
 
-								if (modAccInput < 0 || modAccInput > 14)
+								if (modAccInput < 0 || modAccInput > 15)
 								{
 									cout << "Invalid Input! Please try again." << endl << endl;
 									continue;
@@ -1330,7 +1331,7 @@ int main()
 
 									if (deleteAccInput < 0 || deleteAccInput > 1)
 									{
-										cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+										cout << "Error DACC1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
 										modAccInput = -1; // Trips the while loop below
 									}
 
@@ -1351,7 +1352,7 @@ int main()
 
 										if (deleteAccInput < 0 || deleteAccInput > 1)
 										{
-											cout << "Error DALL1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
+											cout << "Error DACC1: Invalid input. Please enter 0 or 1. Returning to previous menu for account safety..." << endl << endl;
 											modAccInput = -1; // Trips the while loop below
 										}
 
@@ -1365,13 +1366,14 @@ int main()
 										else if (deleteAccInput == 1)
 										{
 											cout << "Deleting Account..." << endl;
-											deleteAccount(Saving, savingCount, accToModify);
+											deleteAccount(Checking, checkingCount, accToModify);
+											endLoop = true;
 										}
 
 										break;
 									}
 								}
-							} while (modAccInput < 0 || modAccInput > 14);
+							} while (modAccInput < 0 || modAccInput > 15);
 							break;
 						}
 					}
