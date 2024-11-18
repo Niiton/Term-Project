@@ -526,8 +526,8 @@ void printMainMenu() {
 		"0- Exit" << endl <<
 		"1- View and Modify Accounts by List" << endl <<
 		"2- View and Modify by Search" << endl <<
-		"3- Create an Account" << endl << endl <<
-
+		"3- Create an Account" << endl <<
+		"4- Transfer Money" << endl << endl <<
 		"____________________________________________" << endl << endl <<
 
 		"Enter an option 0-3: ";
@@ -768,6 +768,19 @@ int main()
 	int checkingCount = 3;
 	int savingCount = 2;
 	int accountCounter = checkingCount + savingCount;
+
+	string tempfirstName = "";
+	string templastName = "";
+	string tempaddress = "";
+	string tempphone = "";
+	string tempemail = "";
+	double amount = 0;
+	double amount2 = 0;
+	int tempID = 0;
+	int tempID2 = 0;
+	bool findID = false;
+	bool Idcheck = false;
+
 
 	int menuInput = -1;
 
@@ -2953,14 +2966,323 @@ int main()
 
 			//Menu Op 3
 		case 3:
+			cout << "Create a Checking or Saving Account(1 for Checking, 2 for Saving):";
+			cin >> menuInput;
+			switch (menuInput)
+			{
+			case 1:
+
+				cout << "Type in firstname:";
+				cin.ignore();
+				getline(cin, tempfirstName);
+				cout << "Type in lastname:";
+				getline(cin, templastName);
+				cout << "Type in address:";
+				getline(cin, tempaddress);
+				cout << "Type in phone number:";
+				getline(cin, tempphone);
+				cout << "Type in email:";
+				cin >> tempemail;
+
+				cout << "Congrats Checking Account Succesfully Created!" << endl;
+
+				Checking[savingCount].setAll(tempfirstName, templastName, tempaddress, tempphone, tempemail, checkingCount++, 0, 0, 0, 500);
+
+				checkingCount = checkingCount + 1;
+				break;
+
+
+
+
+			case 2:
+
+				cout << "Type in firstname:";
+				getline(cin, tempfirstName);
+				cout << "Type in lastname:";
+				getline(cin, templastName);
+				cout << "Type in address:";
+				getline(cin, tempaddress);
+				cout << "Type in phone number:";
+				getline(cin, tempphone);
+				cout << "Type in email:";
+				cin >> tempemail;
+
+				cout << "Congrats Saving Account Succesfully Created!" << endl;
+
+				Saving[savingCount].setAll(tempfirstName, templastName, tempaddress, tempphone, tempemail, checkingCount++, 0, 0, 0, 500, 0.5);
+
+				savingCount = savingCount + 1;
+				break;
+
+
+			}
+
 			break;
+		case 4:
 
-		default:
+			cout << "Checking or Saving Account(1 for Checking, 2 for Saving):";
+			cin >> menuInput;
+			switch (menuInput)
+			{
+			case 1:
 
-			cout << "Error MENI1: Invalid input. Please try again." << endl << endl;
-			continue;
+				cout << "What is your Account ID:";
+				cin >> tempID;
+				tempID = tempID - 1;
+
+
+				for (int i = 0; i < 10; i++)
+				{
+					if (Checking[i].getID() == tempID)
+					{
+						findID = true;
+						break;
+					}
+
+
+				}
+
+				if (findID == true)
+				{
+					findID = false;
+					cout << "Do you want to Transfer to a Checking or saving Account(1 for Checking, 2 for Saving):";
+					cin >> menuInput;
+					switch (menuInput)
+					{
+					case 1:
+
+
+
+
+						cout << "Type in The Account ID you want to transfer money into:";
+						cin >> tempID2;
+						tempID2 = tempID2 - 1;
+						for (int i = 0; i < 10; i++)
+						{
+							if (Checking[i].getID() == tempID2)
+							{
+								findID = true;
+								break;
+							}
+
+
+						}
+
+						if (findID == true)
+						{
+
+							cout << "Please select the amount of money you want to transfer:";
+							cin >> amount;
+							if (amount > 0 && amount <= Checking[tempID].getBalance())
+							{
+
+								amount2 = Checking[tempID].getBalance() - amount;
+								Checking[tempID].setBalance(amount2);
+
+
+
+								amount2 = Checking[tempID2].getBalance() + amount;
+								Checking[tempID2].setBalance(amount2);
+
+								cout << "Money has been Transferred Succesfully!" << endl;
+								break;
+
+							}
+
+
+
+						}
+						else
+							cout << "Error!" << endl;
+
+
+						break;
+
+					case 2:
+
+
+						cout << "Type in The Account ID you want to transfer money into:";
+						cin >> tempID2;
+						tempID2 = tempID2 - 1;
+						for (int i = 0; i < 10; i++)
+						{
+							if (Checking[i].getID() == tempID2)
+							{
+								findID = true;
+								break;
+							}
+
+
+						}
+
+						if (findID == true)
+						{
+							cout << "Please select the amount of money you want to transfer:";
+							cin >> amount;
+							if (amount > 0 && amount <= Checking[tempID].getBalance())
+							{
+
+								amount2 = Checking[tempID].getBalance() - amount;
+								Checking[tempID].setBalance(amount2);
+
+
+
+								amount2 = Saving[tempID2].getBalance() + amount;
+								Saving[tempID2].setBalance(amount2);
+
+								cout << "Money has been Transferred Succesfully!" << endl;
+								break;
+
+							}
+
+
+						}
+						else
+							cout << "Error!" << endl;
+
+					}
+					break;
+
+				}
+				else
+					cout << "Error!" << endl;
+
+
+				break;
+
+
+
+
+			case 2:
+
+				cout << "What is your Account ID:";
+				cin >> tempID;
+				tempID = tempID - 1;
+				for (int i = 0; i < 10; i++)
+				{
+					if (Checking[i].getID() == tempID)
+					{
+						findID = true;
+						break;
+					}
+
+
+				}
+
+				if (findID == true)
+				{
+					findID = false;
+					cout << "Do you want to Transfer to a Checking or saving Account(1 for Checking, 2 for Saving):";
+					cin >> menuInput;
+					switch (menuInput)
+					{
+					case 1:
+
+						cout << "Type in The Account ID you want to transfer money into:";
+						cin >> tempID2;
+						tempID2 = tempID2 - 1;
+						for (int i = 0; i < 10; i++)
+						{
+							if (Checking[i].getID() == tempID2)
+							{
+								findID = true;
+								break;
+							}
+
+
+						}
+
+						if (findID == true)
+						{
+							cout << "Please select the amount of money you want to transfer:";
+							cin >> amount;
+							if (amount > 0 && amount <= Saving[tempID].getBalance())
+							{
+
+								amount2 = Saving[tempID].getBalance() - amount;
+								Saving[tempID].setBalance(amount2);
+
+
+
+								amount2 = Checking[tempID2].getBalance() + amount;
+								Checking[tempID2].setBalance(amount2);
+
+								cout << "Money has been Transferred Succesfully!" << endl;
+								break;
+
+							}
+
+						}
+						else
+							cout << "Error!" << endl;
+						break;
+
+					case 2:
+
+						findID = false;
+
+						cout << "Type in The Account ID you want to transfer money into:";
+						cin >> tempID2;
+						tempID2 = tempID2 - 1;
+
+						for (int i = 0; i < 10; i++)
+						{
+							if (Checking[i].getID() == tempID2)
+							{
+								findID = true;
+								break;
+							}
+
+
+						}
+
+						if (findID == true)
+						{
+
+							cout << "Please select the amount of money you want to transfer:";
+							cin >> amount;
+							if (amount > 0 && amount <= Saving[tempID].getBalance())
+							{
+
+								amount2 = Saving[tempID].getBalance() - amount;
+								Saving[tempID].setBalance(amount2);
+
+
+
+								amount2 = Saving[tempID2].getBalance() + amount;
+								Saving[tempID2].setBalance(amount2);
+
+								cout << "Money has been Transferred Succesfully!" << endl;
+								break;
+
+							}
+
+
+						}
+						else
+							cout << "Error!" << endl;
+
+
+						break;
+					}
+
+				}
+				else
+					cout << "Error!" << endl;
+
+				break;
+
+
+
+
+
+
+			default:
+
+				cout << "Error MENI1: Invalid input. Please try again." << endl << endl;
+				continue;
 			}
 
 		}
 	}
-
+}
