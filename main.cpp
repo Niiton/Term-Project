@@ -21,13 +21,17 @@ int main()
 
 	Checking[0].setAll("Anthony", "Munoz", "2551 mcdon street", "9999999999", "Mario@gmail.com", 1, 2500, 0, 0, 100);
 	Checking[1].setAll("Ethan", "Gonzalez Jamison", "4400 Wacdon St", "5865552986", "Ethan@Wakudon.com", 2, 50'000, 5, 2, 10'000);
-	Checking[2].setAll("Ethan", "Gonzalez Jamison", "4400 Wacdon St", "5865552986", "Ethan@Wakudon.com", 3, 50'000, 5, 2, 10'000);
+	Checking[2].setAll("Chopper", "Jamison", "4400 Wacdon St", "5865552986", "Ethan@Wakudon.com", 3, 50'000, 5, 2, 10'000);
+	Checking[3].setAll("Ronald", "McDonald", "82 McDonalds Rd", "904-555-8792", "Ronald@coporate.com", 4, 9000, 6000, 10000, 5000);
 
-	Saving[0].setAll("Rock", "Johnson", "2554 Ocean Dr", "(904) 555-1475", "Rock@RockEnterprises.rok", 4, 900'000, 4026, .10, 9867, 10'000);
-	Saving[1].setAll("Jock", "Ronson", "2556 Ocean Dr", "(904) 555-1476", "Jock@RonEnterprises.jok", 5, 900'000, 864, .08, 687, 9'000);
+	Saving[0].setAll("Rock", "Johnson", "2554 Ocean Dr", "(904) 555-1475", "Rock@RockEnterprises.rok", 5, 900'000, 4026, .10, 9867, 10'000);
+	Saving[1].setAll("Jock", "Ronson", "2556 Ocean Dr", "(904) 555-1476", "Jock@RonEnterprises.jok", 6, 20000, 864, .08, 687, 9'000);
+	Saving[2].setAll("Linoshka", "Smith", "1400 Beach Blvd", "(904) 555-8040", "Lino@gmail.com", 7, 6000, 20, .03, 90, 500);
+	Saving[3].setAll("Reza", "Sarraf", "4082 Baymeadows Rd", "(904) 555-1267", "rSarraf1996@ju.edu", 8, 600'000, 0, .20, 9000, 20'000);
+	
 
-	int checkingCount = 3;
-	int savingCount = 2;
+	int checkingCount = 4;
+	int savingCount = 4;
 	int accountCounter = checkingCount + savingCount;
 
 	string tempfirstName = "";
