@@ -2986,9 +2986,9 @@ int main()
 
 				cout << "Congrats Checking Account Succesfully Created!" << endl;
 
-				Checking[savingCount].setAll(tempfirstName, templastName, tempaddress, tempphone, tempemail, checkingCount++, 0, 0, 0, 500);
+				Checking[checkingCount].setAll(tempfirstName, templastName, tempaddress, tempphone, tempemail, checkingCount+1, 0, 0, 0, 500);
 
-				checkingCount = checkingCount + 1;
+				checkingCount++;
 				break;
 
 
@@ -3009,9 +3009,9 @@ int main()
 
 				cout << "Congrats Saving Account Succesfully Created!" << endl;
 
-				Saving[savingCount].setAll(tempfirstName, templastName, tempaddress, tempphone, tempemail, checkingCount++, 0, 0, 0, 500, 0.5);
+				Saving[savingCount].setAll(tempfirstName, templastName, tempaddress, tempphone, tempemail, savingCount+1, 0, 0, 0, 500, 0.5);
 
-				savingCount = savingCount + 1;
+				savingCount++;
 				break;
 
 
