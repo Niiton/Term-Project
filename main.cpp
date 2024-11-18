@@ -530,7 +530,7 @@ void printMainMenu() {
 		"4- Transfer Money" << endl << endl <<
 		"____________________________________________" << endl << endl <<
 
-		"Enter an option 0-3: ";
+		"Enter an option 0-4: ";
 }
 
 void printViewOptions()
@@ -803,6 +803,13 @@ int main()
 		printMainMenu();
 
 		cin >> menuInput;
+
+		if (menuInput < 0 || menuInput > 4)
+		{
+			cout << "Error MENI1: Invalid input. Please try again." << endl << endl;
+			continue;
+		}
+
 		cin.ignore();
 
 		switch (menuInput)
@@ -2968,12 +2975,12 @@ int main()
 		case 3:
 			cout << "Create a Checking or Saving Account(1 for Checking, 2 for Saving):";
 			cin >> menuInput;
+			cin.ignore();
 			switch (menuInput)
 			{
 			case 1:
 
 				cout << "Type in firstname:";
-				cin.ignore();
 				getline(cin, tempfirstName);
 				cout << "Type in lastname:";
 				getline(cin, templastName);
@@ -3013,11 +3020,10 @@ int main()
 
 				savingCount++;
 				break;
-
-
 			}
 
 			break;
+
 		case 4:
 
 			cout << "Checking or Saving Account(1 for Checking, 2 for Saving):";
